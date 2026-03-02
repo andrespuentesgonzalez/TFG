@@ -1,4 +1,4 @@
-# 🏥 Telerrehabilitación API - Backend de Seguimiento Clínico
+#  Telerrehabilitación API - Backend de Seguimiento Clínico
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?logo=fastapi)
@@ -9,7 +9,7 @@ Backend robusto desarrollado con **FastAPI** y **PostgreSQL** para dar soporte a
 
 Este proyecto fue desarrollado como Trabajo de Fin de Grado (TFG) para facilitar el seguimiento de pacientes con enfermedades neurodegenerativas (como el Parkinson), permitiendo a los terapeutas prescribir rutinas, y a los pacientes ejecutar y grabar su terapia desde casa con una interfaz de "mínima interacción".
 
-## 🚀 Características Principales
+##  Características Principales
 
 El sistema está diseñado bajo una arquitectura RESTful, priorizando la seguridad de los datos médicos y el desacoplamiento entre cliente y servidor.
 
@@ -21,7 +21,7 @@ El sistema está diseñado bajo una arquitectura RESTful, priorizando la segurid
 * **Integridad Referencial Fuerte:** Esquema de base de datos normalizado que evita anomalías (ej: borrado en cascada controlado para mantener el historial clínico intacto aunque cambie el terapeuta asignado).
 * **Procesamiento de Estadísticas:** Endpoints dedicados para agregar datos en bruto y devolver métricas calculadas (notas medias, progresión) al cliente móvil, optimizando su consumo de batería.
 
-## 🛠️ Stack Tecnológico
+##  Stack Tecnológico
 
 * **Framework:** FastAPI
 * **Lenguaje:** Python 3.10+
@@ -30,4 +30,5 @@ El sistema está diseñado bajo una arquitectura RESTful, priorizando la segurid
 * **Validación de Datos:** Pydantic
 * **Seguridad:** Passlib (Bcrypt) & PyJWT
 * **Testing:** Pytest
+
 
