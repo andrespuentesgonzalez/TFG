@@ -1,4 +1,4 @@
-#  Telerrehabilitación API - Backend de Seguimiento Clínico
+#  HERRAMIENTA DE GESTION PARA EL SEGUIMIENTO DE PACIENTES CON VIDEO A TRAVES DE DISPOSITIVO MOVIL
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?logo=fastapi)
@@ -30,5 +30,6 @@ El sistema está diseñado bajo una arquitectura RESTful, priorizando la segurid
 * **Validación de Datos:** Pydantic
 * **Seguridad:** Passlib (Bcrypt) & PyJWT
 * **Testing:** Pytest
+
 
 
