@@ -1,0 +1,618 @@
+\apendice{Especificación de Requisitos Software}
+\label{apendice:B}
+
+\section{Introducción}
+El presente documento constituye la Especificación de Requisitos Software (ERS) para el sistema de telerrehabilitación desarrollado. Su finalidad es establecer una descripción técnica, completa y no ambigua del comportamiento esperado del sistema, actuando como contrato formal entre las necesidades clínicas identificadas y la implementación tecnológica realizada.
+
+La definición de estos requisitos no responde a un modelo estático o en cascada, sino que es el resultado de un proceso de ingeniería de requisitos iterativo e incremental. A lo largo del ciclo de vida del desarrollo, las especificaciones han evolucionado mediante reuniones periódicas de validación con el equipo de investigación, refinando los casos de uso para adaptar la solución a las restricciones reales del entorno sanitario y a las limitaciones motoras de los usuarios finales.
+
+Este apéndice desglosa las necesidades del sistema en objetivos generales y requisitos funcionales específicos, clasificándolos según el actor que interactúa con la plataforma.
+
+\section{Objetivos Generales del Sistema}
+Partiendo del análisis de la problemática y de las necesidades expresadas por los interesados, se han identificado cinco objetivos globales que rigen el comportamiento de la aplicación. Estos objetivos agrupan las funcionalidades detalladas y definen el alcance operativo del proyecto.
+
+\begin{description}
+    \item[Ecosistema multi-rol:] el sistema debe funcionar como una plataforma integral capaz de orquestar la interacción segura entre tres perfiles de usuario diferenciados: Administrador, Terapeuta y Paciente. El objetivo es garantizar que cada actor acceda exclusivamente a su contexto de operación, implementando una estricta segregación de datos y funcionalidades para cumplir con los principios de seguridad y privacidad de la información médica.
+    
+    \item[Gestión centralizada y asignación remota:] el software debe dotar al personal sanitario de herramientas eficientes para la digitalización de la terapia. Esto implica la capacidad de crear y mantener un repositorio digital de ejercicios, agruparlos en rutinas reutilizables y asignar tratamientos personalizados a los pacientes de forma remota. El sistema debe eliminar la dependencia de la presencialidad para la planificación del tratamiento.
+    
+    \item[Ejecución accesible y adaptada:] para el perfil de paciente, el objetivo prioritario es la eliminación de barreras tecnológicas. La interfaz de ejecución debe diseñarse bajo criterios de accesibilidad cognitiva y motora extrema, permitiendo la visualización de la terapia y la grabación de la respuesta mediante comandos simplificados e interacciones lineales. El sistema debe soportar un modelo de autenticación delegada que permita al administrador preparar el dispositivo, liberando al paciente de la gestión de credenciales.
+    
+    \item[Supervisión asíncrona y retroalimentación:] el sistema debe cerrar el ciclo de rehabilitación habilitando mecanismos de evaluación diferida. Se requiere que la plataforma capture, procese y almacene las evidencias visuales de los ejercicios realizados por los pacientes, permitiendo al terapeuta su revisión posterior y calificarla. Asimismo, el sistema debe mostrar esta evolución al paciente para fomentar su adherencia al tratamiento.
+\end{description}
+
+\section{Usuarios de la aplicación}
+Se han identificado tres roles distintos que interactúan con el sistema. Cada rol posee un nivel de privilegios estanco y una interfaz adaptada a sus funciones específicas.
+
+\subsection{Administrador}
+\textbf{Descripción:} es el perfil técnico encargado del mantenimiento operativo de la plataforma. Este actor no participa en el proceso clínico ni en la evaluación de terapias, sino que actúa como garante de la infraestructura lógica y la seguridad.
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Responsabilidad exclusiva sobre el ciclo de vida de las cuentas de usuario (alta, baja y modificación de credenciales) para Terapeutas y Pacientes.
+    \item Único rol con permisos para establecer y disolver vínculos lógicos entre el personal sanitario y los pacientes, garantizando la privacidad de los datos mediante la segmentación de acceso.
+    \item Definición de parámetros globales, como las políticas de retención y purgado automático de los vídeos almacenados.
+\end{itemize}
+
+\textbf{Perfil técnico:} usuario con conocimientos informáticos medios-altos, capaz de comprender la estructura organizativa del sistema.
+
+\subsection{Terapeuta}
+\textbf{Descripción:} es el usuario encargado de la planificación y supervisión del tratamiento. Interactúa con el sistema para generar contenido clínico y evaluar el desempeño de los pacientes asignados a su cargo.
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Creación y mantenimiento de la biblioteca de ejercicios, incluyendo la subida de vídeos de referencia y la redacción de instrucciones.
+    \item Diseño de rutinas compuestas y programación de sesiones en el calendario del paciente.
+    \item Revisión de los videos generados por los pacientes y emisión de calificaciones.
+\end{itemize}
+
+\textbf{Perfil técnico:} usuario con conocimientos informáticos a nivel de usuario estándar. Requiere herramientas de productividad eficientes para gestionar múltiples pacientes, pero no posee conocimientos de administración de sistemas.
+
+\subsection{Paciente}
+\textbf{Descripción:} Es el usuario final del tratamiento. Este perfil se caracteriza por presentar, en la mayoría de los casos, limitaciones motoras (temblores, rigidez) derivadas de la enfermedad de Parkinson, así como una posible brecha digital asociada a la edad.
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Visualización de las sesiones programadas para el día actual.
+    \item Grabación de la ejecución de los ejercicios siguiendo las guías visuales proporcionadas por el sistema.
+    \item Visualización pasiva de las calificaciones y la evolución histórica del tratamiento.
+\end{itemize}
+
+\textbf{Perfil técnico y restricciones:} usuario con bajo o nulo nivel de competencia digital y capacidades motoras finas reducidas.
+\begin{itemize}
+    \item \textbf{Restricción de diseño:} la interfaz para este actor debe adherirse estrictamente al principio de ``mínima interacción'', evitando menús complejos, gestos rápidos o la introducción de texto. El sistema debe asumir la carga cognitiva, automatizando el flujo de navegación.
+\end{itemize}
+
+\section{Catálogo de requisitos}
+
+\subsection{Requisitos funcionales}
+
+\begin{description}
+    \item[RF-1 Gestión de identidades y usuarios:] el sistema debe proporcionar herramientas para la administración centralizada de las cuentas de acceso.
+    \begin{itemize}
+        \item \textbf{RF-1.1 Operaciones CRUD:} el administrador debe poder dar de alta, modificar y eliminar usuarios (Administradores, Terapeutas y Pacientes) en el sistema.
+        \item \textbf{RF-1.2 Asignación de roles:} el sistema debe asignar y validar los privilegios específicos asociados a cada perfil, garantizando la segregación de funciones.
+        \item \textbf{RF-1.3 Consulta y filtrado:} el administrador debe poder visualizar un listado general de usuarios registrados, con capacidad de filtrar los resultados por rol o criterios de búsqueda.
+    \end{itemize}
+
+    \item[RF-2 Orquestación operativa y acceso:] el sistema debe gestionar las relaciones lógicas entre actores y el control de sesiones en los dispositivos.
+    \begin{itemize}
+        \item \textbf{RF-2.1 Vinculación clínica:} el administrador debe poder asignar y desasignar pacientes a un terapeuta específico, estableciendo la relación de dependencia para el acceso a datos.
+        \item \textbf{RF-2.2 Gestión de sesiones activas:} el administrador debe tener la capacidad de forzar el cierre de sesión de un paciente de forma remota.
+        \item \textbf{RF-2.3 Monitorización del sistema:} el administrador debe poder consultar métricas globales del sistema.
+    \end{itemize}
+
+    \item[RF-3 Gestión de contenidos terapéuticos:] el sistema debe permitir al personal sanitario la creación y mantenimiento de una biblioteca digital de recursos.
+    \begin{itemize}
+        \item \textbf{RF-3.1 Gestión de repositorio:} el terapeuta debe poder subir nuevos vídeos de ejemplo al servidor, así como eliminar recursos obsoletos.
+        \item \textbf{RF-3.2 Catálogo global:} El sistema debe permitir la visualización de todos los ejercicios disponibles en la biblioteca.
+        \item \textbf{RF-3.3 Diseño de rutinas:} El terapeuta debe poder crear agrupaciones lógicas de ejercicios y modificar o eliminar las existentes para su reutilización.
+    \end{itemize}
+
+    \item[RF-4 Planificación y seguimiento asíncrono:] el sistema debe facilitar la asignación de terapias y la evaluación diferida del progreso.
+    \begin{itemize}
+        \item \textbf{RF-4.1 Asignación de tratamiento:} el terapeuta debe poder programar una rutina específica para un paciente en una fecha y hora determinada.
+        \item \textbf{RF-4.2 Revisión de evidencias:} el terapeuta debe poder acceder y reproducir los vídeos grabados por los pacientes correspondientes a las sesiones finalizadas.
+        \item \textbf{RF-4.3 Calificación objetiva:} el sistema debe permitir al terapeuta asignar una valoración al desempeño del paciente en cada sesión.
+        \item \textbf{RF-4.4 Visualización de progreso:} el terapeuta debe disponer de una vista resumen con la evolución del cumplimiento de tareas del paciente.
+    \end{itemize}
+
+    \item[RF-5 Interfaz y ejecución del paciente:] el sistema debe proveer un entorno simplificado y accesible para la realización de la terapia.
+    \begin{itemize}
+        \item \textbf{RF-5.1 Agenda diaria:} el paciente debe visualizar automáticamente la rutina de ejercicios asignada para el día actual al abrir la aplicación.
+        \item \textbf{RF-5.2 Reproducción de guía:} el sistema debe permitir la visualización del vídeo de ejemplo asociado a cada ejercicio.
+        \item \textbf{RF-5.3 Grabación simultánea:} el sistema debe activar la cámara frontal para grabar al usuario mientras este visualiza el ejemplo, gestionando el almacenamiento local del archivo resultante.
+        \item \textbf{RF-5.4 Consulta de estado:} el paciente debe poder visualizar la calificación asignada a sus sesiones anteriores para conocer su evolución.
+    \end{itemize}
+\end{description}
+
+\subsection{Requisitos no funcionales}
+
+\begin{description}
+    \item[RNF-1 Seguridad y privacidad:] \mbox{} \\ 
+    \begin{itemize}
+        \item \textbf{RNF-1.1 Autenticación y persistencia segura:} el acceso al sistema requerirá autenticación mediante credenciales. Las contraseñas nunca se almacenarán en texto plano; se emplearán algoritmos de hash robustos (Bcrypt)\cite{bcrypt_algo}.
+        \item \textbf{RNF-1.2 Seguridad en tránsito:} todas las comunicaciones se realizarán sobre canales cifrados.
+        \item \textbf{RNF-1.3 Aislamiento de datos:} el sistema garantizará que un paciente solo pueda acceder a su propio contexto de datos.
+        \item \textbf{RNF-1.4 Privilegios de administración:} las operaciones críticas estarán restringidas al rol de Administrador.
+    \end{itemize}
+
+    \item[RNF-2 Usabilidad y accesibilidad:] \mbox{} \\
+    \begin{itemize}
+        \item \textbf{RNF-2.1 Adaptación motora:} interfaz del paciente basada en interacciones táctiles simplificadas.
+        \item \textbf{RNF-2.2 Legibilidad y ergonomía:} textos y botones sobredimensionados.
+        \item \textbf{RNF-2.3 Eficiencia de navegación:} máximo de tres interacciones para llegar a la funcionalidad principal.
+        \item \textbf{RNF-2.4 Claridad del sistema:} mensajes en lenguaje claro y no técnico.
+    \end{itemize}
+
+    \item[RNF-3 Rendimiento y eficiencia:] \mbox{} \\
+    \begin{itemize}
+        \item \textbf{RNF-3.1 Tiempos de respuesta:} carga y transición en menos de 5 segundos.
+        \item \textbf{RNF-3.2 Procesamiento asíncrono:} subida de vídeos en segundo plano.
+        \item \textbf{RNF-3.3 Concurrencia:} soporte para mínimo 50 usuarios concurrentes.
+    \end{itemize}
+
+    \item[RNF-4 Disponibilidad y robustez:] \mbox{} \\
+    \begin{itemize}
+        \item \textbf{RNF-4.2 Ventana de servicio:} disponibilidad mínima de 08:00 a 22:00 laborables.
+        \item \textbf{RNF-4.3 Respaldo de datos:} copias de seguridad diarias automáticas.
+    \end{itemize}
+
+
+    \item[RNF-5 Mantenibilidad y Entorno:] \mbox{} \\
+    \begin{itemize}
+        \item \textbf{RNF-5.1 Escalabilidad funcional:} arquitectura modular.
+        \item \textbf{RNF-5.2 Configurabilidad dinámica:} parámetros modificables sin reinicio.
+        \item \textbf{RNF-5.3 Observabilidad:} logs detallados de errores.
+        \item \textbf{RNF-5.4 Compatibilidad:} soporte para Android (Tablet/Móvil).
+    \end{itemize}
+\end{description}
+\clearpage
+
+\section{Especificación de Requisitos}
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    
+
+    \toprule
+    \endfirsthead
+
+    \toprule
+    \endhead
+
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    
+    \bottomrule
+    \noalign{\vspace{0.5cm}} 
+    \caption{Caso de Uso 1: Iniciar Sesión} \label{cu:1} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-01 \\ \midrule
+    \textbf{Actores} & Administrador, Terapeuta \\ \midrule
+    \textbf{Descripción} & Permite al administrador o al terapeuta autenticarse en el sistema mediante usuario y contraseña para acceder a sus funcionalidades correspondientes. El sistema valida las credenciales y, en función del rol, muestra la interfaz y las opciones adecuadas. \\ \midrule
+    \textbf{Requisitos} & RF-1.1, RNF-1.1 \\ \midrule
+    \textbf{Precondiciones} & 
+    - El usuario dispone de una cuenta registrada en el sistema. \newline
+    - El sistema está operativo y conectado a la base de datos. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El usuario abre la aplicación. \newline
+    2. El sistema muestra la pantalla de inicio de sesión. \newline
+    3. El usuario introduce su nombre de usuario y contraseña. \newline
+    4. El sistema valida las credenciales frente a la base de datos. \newline
+    5. Si son correctas, el sistema identifica el rol y redirige a la interfaz correspondiente. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    4a. Si las credenciales son incorrectas, el sistema muestra un mensaje de error y permite reintentar. \\ \midrule
+    \textbf{Postcondiciones} & 
+    - El usuario accede a las funcionalidades habilitadas según su rol. \newline
+    - Se registra la sesión en el sistema. \\ \midrule
+    \textbf{Excepciones} & Fallo en la autenticación. \\
+\end{longtable}
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 2: Gestionar Usuarios} \label{cu:2} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-02 \\ \midrule
+    \textbf{Actores} & Administrador \\ \midrule
+    \textbf{Requisitos} & RF-1.1, RF-1.2, RF-1.3 \\ \midrule
+    \textbf{Descripción} & Permite al administrador crear nuevos usuarios, modificar sus datos, eliminar cuentas existentes y asignarles roles dentro del sistema. \\ \midrule
+    \textbf{Precondiciones} & 
+    - El administrador ha iniciado sesión correctamente. \newline
+    - El sistema se encuentra operativo. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El administrador accede a la sección “Gestión de usuarios”. \newline
+    2. El sistema muestra la lista de usuarios registrados y sus roles. \newline
+    3. El administrador selecciona la opción de crear, modificar o eliminar un usuario. \newline
+    4. Si crea un usuario, introduce los datos requeridos (nombre, email, contraseña, rol). \newline
+    5. Si modifica, el sistema muestra los datos existentes y permite editarlos. \newline
+    6. Si elimina, el sistema solicita confirmación antes de proceder. \newline
+    7. El sistema actualiza la base de datos y muestra un mensaje de confirmación. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    4a. Si los datos introducidos no son válidos, el sistema muestra un mensaje de error y solicita corrección. \\ \midrule
+    \textbf{Postcondiciones} & 
+    - Los cambios quedan registrados en la base de datos. \newline
+    - El listado de usuarios se actualiza automáticamente. \\ \midrule
+    \textbf{Excepciones} & Intento de creación de usuario duplicado. \\
+\end{longtable}
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 3: Asignar Paciente a Terapeuta} \label{cu:3} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-03 \\ \midrule
+    \textbf{Actores} & Administrador \\ \midrule
+    \textbf{Requisitos} & RF-2.1 \\ \midrule
+    \textbf{Descripción} & Permite al administrador vincular un paciente con un terapeuta determinado, así como modificar o eliminar la asignación existente. \\ \midrule
+    \textbf{Precondiciones} & 
+    - El administrador ha iniciado sesión. \newline
+    - Existen usuarios registrados con roles de paciente y terapeuta. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El administrador accede a la sección “Asignaciones”. \newline
+    2. El sistema muestra las asignaciones actuales y la lista de usuarios disponibles. \newline
+    3. El administrador selecciona un terapeuta y uno o varios pacientes. \newline
+    4. El sistema guarda la relación en la base de datos. \newline
+    5. El sistema confirma la asignación con un mensaje. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    - El administrador selecciona una asignación existente para modificar o eliminarla. \newline
+    - Si la relación ya existe, el sistema muestra un aviso y no duplica la asignación. \newline
+    - Si el paciente tiene ya un terapeuta asignado el sistema muestra un aviso e impide la asignación. \\ \midrule
+    \textbf{Postcondiciones} & 
+    - El paciente queda asociado al terapeuta seleccionado. \newline
+    - Las asignaciones modificadas o eliminadas se actualizan en la base de datos. \\
+\end{longtable}
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 4: Crear Rutina de Ejercicios} \label{cu:4} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-04 \\ \midrule
+    \textbf{Actores} & Terapeuta \\ \midrule
+    \textbf{Requisitos} & RF-3.2, RF-3.3 \\ \midrule
+    \textbf{Descripción} & Define una nueva rutina agrupando ejercicios de la biblioteca. Funciona como plantilla reutilizable para asignar a múltiples pacientes. \\ \midrule
+    \textbf{Precondiciones} & Terapeuta loguead y existen ejercicios en el catálogo global. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. Accede a Gestión de Rutinas y selecciona "Crear nueva". \newline
+    2. Introduce metadatos (Nombre y descripción). \newline
+    3. Selecciona los ejercicios del catálogo a incluir. \newline
+    4. Reordena ejercicios y configura parámetros (repeticiones, duración). \newline
+    5. Confirma guardado; el sistema valida y almacena la rutina. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    1a. Edita una rutina existente. \newline
+    3a. Usa el buscador para filtrar ejercicios. \newline
+    4a. Cancela la operación sin guardar. \newline
+    5a. Error si faltan datos obligatorios. \\ \midrule
+    \textbf{Postcondiciones} & Rutina registrada con ID único y disponible para asignación inmediata. \\
+\end{longtable}
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 5: Realizar Ejercicio con Grabación} \label{cu:5} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-05 \\ \midrule
+    \textbf{Actores} & Paciente \\ \midrule
+    \textbf{Requisitos} & RF-5.1, RF-5.2, RF-5.3 \\ \midrule
+    \textbf{Descripción} & Permite al paciente ejecutar la terapia diaria. El sistema reproduce el vídeo de ejemplo mientras captura simultáneamente la ejecución del usuario mediante la cámara frontal, gestionando automáticamente el almacenamiento y la subida. \\ \midrule
+    \textbf{Precondiciones} & 
+    - Paciente logueado. \newline
+    - Existe una rutina asignada para la fecha actual. \newline
+    - Dispositivo con cámara funcional y almacenamiento libre. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El paciente accede a la pantalla principal y selecciona la rutina del día. \newline
+    2. El sistema presenta la lista de ejercicios y el paciente selecciona uno. \newline
+    3. El sistema abre la interfaz de reproducción (vídeo guía y cámara propia). \newline
+    4. El sistema inicia la reproducción del ejemplo y la grabación sincronizada. \newline
+    5. Al finalizar el ejercicio, el sistema detiene la grabación automáticamente. \newline
+    6. El archivo se guarda en el almacenamiento local. \newline
+    7. El sistema inicia la sincronización del vídeo en segundo plano. \newline
+    8. El ejercicio se marca como "Realizado". \\ \midrule
+    \textbf{Flujos Alt.} & 
+    4a. El paciente pausa o sale: el sistema descarta la grabación parcial. \\ \midrule
+    \textbf{Postcondiciones} & 
+    - Se ha generado una evidencia en vídeo. \newline
+    - El progreso diario del paciente se actualiza. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 6: Evaluar Ejercicios de Paciente} \label{cu:6} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-06 \\ \midrule
+    \textbf{Actores} & Terapeuta \\ \midrule
+    \textbf{Requisitos} & RF-4.2, RF-4.3 \\ \midrule
+    \textbf{Descripción} & Permite al terapeuta revisar de manera asíncrona las evidencias visuales generadas por los pacientes y asignar una valoración objetiva (numérica o estado) al desempeño mostrado. \\ \midrule
+    \textbf{Precondiciones} & 
+    - Terapeuta logueado. \newline
+    - Existen sesiones finalizadas con vídeos pendientes de revisión. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El terapeuta accede al módulo de “Mis pacientes”. \newline
+    2. Selecciona un paciente de su lista. \newline
+    3. El sistema muestra las sesiones realizadas y selecciona una específica. \newline
+    4. El sistema reproduce el vídeo grabado por el paciente desde el servidor. \newline
+    5. El terapeuta asigna una calificación numérica o marca "Validado". \newline
+    6. El terapeuta confirma la evaluación. \newline
+    7. El sistema guarda la puntuación y actualiza el expediente. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    2a. Si el paciente no ha realizado ejercicios, indica "Sin sesiones pendientes". \\ \midrule
+    \textbf{Postcondiciones} & 
+    - El ejercicio pasa a estado "Evaluado". \newline
+    - La calificación es visible para el paciente. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 7: Monitorización del Sistema} \label{cu:7} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-07 \\ \midrule
+    \textbf{Actores} & Administrador \\ \midrule
+    \textbf{Requisitos} & RF-2.4 \\ \midrule
+    \textbf{Descripción} & Permite al administrador consultar un cuadro de mando (dashboard) con métricas técnicas sobre el uso de la plataforma, fundamental para controlar el consumo de recursos de almacenamiento y la actividad global. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El administrador accede al panel de "Estadísticas". \newline
+    2. Se presentan visualmente las métricas clave: Usuarios activos, Sesiones realizadas, Ejercicios almacenados. \newline
+    3. El administrador analiza la información. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    2a. Si el volumen de datos es muy alto, muestra indicador de carga. \\ \midrule
+    \textbf{Postcondiciones} & La información mostrada refleja el estado actual de la BD. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 8: Gestión de Repositorio de Vídeos} \label{cu:8} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-08 \\ \midrule
+    \textbf{Actores} & Terapeuta \\ \midrule
+    \textbf{Requisitos} & RF-3.1, RF-3.2 \\ \midrule
+    \textbf{Descripción} & Permite al personal sanitario administrar la biblioteca central de contenidos, subiendo nuevos vídeos de referencia o eliminando material obsoleto. \\ \midrule
+    \textbf{Precondiciones} & 
+    - Terapeuta logueado. \newline
+    - Archivo de vídeo disponible en el dispositivo. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El terapeuta accede a la sección "Ejercicios". \newline
+    2. Selecciona la opción "Subir nuevo". \newline
+    3. El sistema abre el explorador de archivos local. \newline
+    4. El terapeuta selecciona el vídeo y completa los datos. \newline
+    5. El sistema procesa la subida del archivo al servidor. \newline
+    6. Una vez completada, el ejercicio aparece listado en el catálogo global. \\ \midrule
+    \textbf{Postcondiciones} & El catálogo se actualiza, nuevos recursos disponibles. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 9: Consultar Historial y Progreso} \label{cu:9} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-09 \\ \midrule
+    \textbf{Actores} & Terapeuta \\ \midrule
+    \textbf{Requisitos} & RF-4.4 \\ \midrule
+    \textbf{Descripción} & Permite al terapeuta visualizar la evolución de un paciente a lo largo del tiempo, consolidando las calificaciones obtenidas en las diferentes sesiones. \\ \midrule
+    \textbf{Precondiciones} & El terapeuta tiene pacientes asignados con actividad registrada. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El terapeuta accede a la ficha detallada de un paciente. \newline
+    2. Selecciona la pestaña de "Historial". \newline
+    3. El sistema consulta la base de datos de evaluaciones. \newline
+    4. Se muestra un listado cronológico o gráfico de las sesiones y puntuaciones. \newline
+    5. El terapeuta analiza la tendencia para ajustar futuras rutinas. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    3a. Si es un paciente nuevo, el sistema muestra "Sin datos de actividad". \\ \midrule
+    \textbf{Postcondiciones} & El terapeuta dispone de información objetiva para decisiones clínicas. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 10: Modificar Ficha de Usuario} \label{cu:10} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-10 \\ \midrule
+    \textbf{Actores} & Administrador \\ \midrule
+    \textbf{Requisitos} & RF-1.1, RF-9 \\ \midrule
+    \textbf{Descripción} & Permite al administrador editar la información personal, credenciales de acceso o datos de contacto de cualquier usuario registrado. \\ \midrule
+    \textbf{Precondiciones} & El usuario a modificar existe en la base de datos. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El administrador accede al módulo de "Gestión de Usuarios". \newline
+    2. Busca al usuario específico y selecciona "Editar". \newline
+    3. El sistema carga los datos actuales en un formulario editable. \newline
+    4. El administrador modifica los campos (Nombre, Email o Contraseña). \newline
+    5. Confirma los cambios. \newline
+    6. El sistema valida el formato y la unicidad del email. \newline
+    7. El sistema actualiza el registro en la base de datos. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    7a. Si el formato es incorrecto o email en uso, error bloqueante. \newline
+    7b. Si hay nueva contraseña, se aplica hash Bcrypt. \\ \midrule
+    \textbf{Postcondiciones} & Los datos quedan actualizados para el próximo inicio de sesión. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 11: Consultar Historial de Desempeño} \label{cu:11} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-11 \\ \midrule
+    \textbf{Actores} & Paciente \\ \midrule
+    \textbf{Requisitos} & RF-5.4 \\ \midrule
+    \textbf{Descripción} & Permite al paciente obtener una visión global de su adherencia al tratamiento, visualizando estadísticas simplificadas sobre las sesiones completadas. \\ \midrule
+    \textbf{Precondiciones} & El paciente tiene historial de uso. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El paciente accede a la opción "Historial". \newline
+    2. El sistema calcula y muestra gráficos adaptados y sencillos. \newline
+    3. El paciente visualiza sus calificaciones. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    2a. Si no tiene sesiones evaluadas, muestra mensaje informando. \\ \midrule
+    \textbf{Postcondiciones} & Se refuerza la motivación del paciente. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 12: Consultar Rutina del Día} \label{cu:12} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-12 \\ \midrule
+    \textbf{Actores} & Paciente \\ \midrule
+    \textbf{Requisitos} & RF-5.1 \\ \midrule
+    \textbf{Descripción} & Punto de entrada principal. Permite visualizar y acceder a la lista de ejercicios programados para la fecha actual. \\ \midrule
+    \textbf{Precondiciones} & Sesión válida programada para hoy. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El paciente abre la aplicación. \newline
+    2. El sistema detecta la fecha actual y consulta la BD local. \newline
+    3. Se muestra en la pantalla principal la sesión pendiente. \newline
+    4. El paciente selecciona el primer ejercicio para comenzar. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    3a. Si no hay rutina: mensaje "Hoy no tienes ejercicios asignados". \\ \midrule
+    \textbf{Postcondiciones} & Acceso directo al contenido terapéutico. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 13: Visualizar Guía de Ejercicio} \label{cu:13} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-13 \\ \midrule
+    \textbf{Actores} & Paciente \\ \midrule
+    \textbf{Requisitos} & RF-5.2 \\ \midrule
+    \textbf{Descripción} & Permite al paciente consultar el vídeo de ejemplo sin necesidad de iniciar la grabación. Útil para repasar la técnica. \\ \midrule
+    \textbf{Precondiciones} & Ejercicio tiene asociado un vídeo válido. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El paciente accede al detalle de un ejercicio. \newline
+    2. El sistema muestra la ficha técnica. \newline
+    3. El paciente selecciona "Ver ejemplo". \newline
+    4. El sistema reproduce el vídeo en pantalla completa. \newline
+    5. El paciente cierra el vídeo tras finalizar. \\ \midrule
+    \textbf{Postcondiciones} & El paciente ha visualizado el contenido, pero todavía puede esperar para grabar. \\
+\end{longtable}
+
+
+\clearpage
+\begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \toprule
+    \endfirsthead
+    \toprule
+    \endhead
+    \midrule
+    \multicolumn{2}{r}{\small\itshape Continúa en la página siguiente} \\
+    \endfoot
+    \bottomrule
+    \noalign{\vspace{0.5cm}}
+    \caption{Caso de Uso 14: Programar Sesión de Terapia} \label{cu:14} \\
+    \endlastfoot
+
+    \textbf{ID} & CU-14 \\ \midrule
+    \textbf{Actores} & Terapeuta \\ \midrule
+    \textbf{Requisitos} & RF-4.1, RF-4.1b \\ \midrule
+    \textbf{Descripción} & Permite al terapeuta asignar una rutina específica a uno o varios pacientes para una fecha, poblando el calendario. \\ \midrule
+    \textbf{Precondiciones} & Existen rutinas y pacientes vinculados. \\ \midrule
+    \textbf{Flujo Principal} & 
+    1. El terapeuta accede al módulo "Calendario". \newline
+    2. Selecciona un paciente. \newline
+    3. Elige una fecha específica. \newline
+    4. Selecciona la opción "Asignar Rutina". \newline
+    5. El sistema muestra el listado y el terapeuta escoge una. \newline
+    6. El sistema confirma la asignación. \\ \midrule
+    \textbf{Flujos Alt.} & 
+    4a. Cancelar sesión: El terapeuta selecciona una sesión ya programada y la elimina. \\ \midrule
+    \textbf{Postcondiciones} & La rutina aparece visible inmediatamente para la fecha indicada. \\
+\end{longtable}

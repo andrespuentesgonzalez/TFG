@@ -1,0 +1,103 @@
+\capitulo{6}{Trabajos Relacionados}
+
+El desarrollo de este proyecto no parte de cero, sino que se integra dentro de una línea de investigación consolidada en la Universidad de Burgos orientada a la aplicación de tecnologías informáticas para la mejora de la calidad de vida en enfermedades neurodegenerativas. A continuación, se analizan los antecedentes académicos directos que han servido como referencia conceptual y técnica, así como soluciones comerciales que comparten principios de diseño.
+
+\section{Antecedentes Académicos: TFM}
+
+Esta primera categoría engloba las tesis de máster que establecieron las bases tecnológicas del sistema, centrándose en la visión artificial y la arquitectura del servidor.
+
+\subsection{Detección de poses con Detectron2 y comparación de vídeos}
+
+\begin{itemize}
+    \item \textbf{Referencia:} Ramírez Sanz, J. M. (TFM).
+    \item \textbf{Enlace:} \url{https://github.com/Josemi/TFM-FIS-IA}
+\end{itemize}
+
+Este Trabajo de Fin de Máster constituye el cimiento tecnológico sobre el que se asienta la capacidad de análisis del proyecto global. La investigación partió de la necesidad de mitigar los efectos de la despoblación rural y la saturación de los centros de salud mediante la automatización de la terapia física.
+
+El núcleo del estudio consistió en una revisión exhaustiva del estado del arte en materia de visión artificial para seleccionar la arquitectura más idónea en la tarea de estimación de pose humana. Tras evaluar diversas alternativas, la investigación se decantó por la implementación de Detectron2, una plataforma de detección de objetos de última generación.
+
+El aporte técnico principal de este trabajo fue el desarrollo de un sistema de extracción de características capaz de inferir la estructura corporal o esqueleto de una persona a partir de una imagen plana. Asimismo, se implementaron los primeros algoritmos de lógica comparativa que permiten cotejar matemáticamente la posición del paciente frente a la del terapeuta. Esta funcionalidad es la que habilita teóricamente la retroalimentación automática, permitiendo al sistema evaluar si una postura es correcta sin intervención humana directa.
+
+\textbf{Sinergia y Dependencia Tecnológica:} La relación entre este TFM y el presente proyecto es de naturaleza jerárquica y complementaria. El trabajo de Ramírez Sanz validó la viabilidad técnica de la solución: demostró que es posible utilizar inteligencia artificial para supervisar ejercicios de rehabilitación. Por su parte, el presente Trabajo de Fin de Grado materializa el canal de distribución de dicha tecnología. Mientras que el TFM se centró en el modelo matemático y el procesamiento de imagen en el servidor, este proyecto se ha encargado de construir la infraestructura de captura en el extremo del cliente. La aplicación móvil desarrollada es el vehículo indispensable para llevar los algoritmos de visión artificial validados por Ramírez Sanz hasta el domicilio del paciente, cerrando así la brecha entre la investigación teórica en IA y su aplicación práctica en un entorno doméstico real.
+
+\subsection{Creación de la infraestructura necesaria para la telerrehabilitación y análisis online}
+
+\begin{itemize}
+    \item \textbf{Referencia:} Garrido Labrador, J. L. (TFM).
+    \item \textbf{Enlace:} \url{https://github.com/jlgarridol/FIS-FBIS}
+\end{itemize}
+
+Este proyecto de máster abordó el desafío de la telerrehabilitación desde una perspectiva de arquitectura de sistemas y escalabilidad. Su foco principal no fue el algoritmo específico de análisis, sino el diseño de una infraestructura \textit{Full-Stack} robusta capaz de soportar la carga masiva de datos multimedia inherente a un despliegue poblacional.
+
+La investigación identificó que, para que la telemedicina sea viable en zonas rurales (``España Vaciada'') y reduzca costes reales, el sistema no puede depender exclusivamente de la revisión manual asíncrona, ya que esto crea un cuello de botella en el facultativo. Por ello, se propuso una arquitectura basada en tecnologías de Big Data y Redes Neuronales Profundas.
+
+El aporte fundamental de este trabajo fue la implementación de flujos de ingestión de datos capaces de gestionar la subida simultánea de vídeos por parte de múltiples pacientes. Asimismo, se integraron los modelos de Inteligencia Artificial para la identificación de esqueletos (\textit{skeleton tracking}) dentro de un \textit{pipeline} de procesamiento automatizado, sentando las bases para que la evaluación clínica pudiera realizarse de forma desatendida mediante el análisis computacional.
+
+\textbf{Complementariedad Arquitectónica:} La vinculación entre este TFM y el presente Trabajo de Fin de Grado es estructural. Se establece una relación de Cliente-Infraestructura. El trabajo de Garrido Labrador definió y construyó el ``lado del servidor'' (\textit{Backend}) a gran escala, preparado para recibir y procesar terabytes de información médica. En contrapartida, el presente proyecto constituye la implementación del ``terminal de usuario'' (\textit{Frontend} Móvil). La aplicación Android desarrollada en este TFG es el componente encargado de digitalizar al paciente y transmitir la información hacia la infraestructura de Big Data diseñada por Garrido, actuando como el sensor distribuido que alimenta a todo el ecosistema de análisis.
+
+\section{Antecedentes Académicos: TFG}
+
+Este bloque agrupa los trabajos de grado que, partiendo de la infraestructura anterior, desarrollaron módulos específicos para la evaluación del desempeño del paciente.
+
+\subsection{Evaluación de Ejercicios de Rehabilitación}
+
+\begin{itemize}
+    \item \textbf{Referencia:} Núñez Calvo, L. (2022).
+    \item \textbf{Enlace:} \url{https://github.com/2021-22-TFG-jul/TFG-Evaluacion-Ejercicios-Rehabilitacion}
+\end{itemize}
+
+Este trabajo de investigación previo abordó la problemática de la rehabilitación desde una perspectiva algorítmica y de procesamiento de imagen. Su objetivo principal se centró en la segmentación temporal automática de ejercicios terapéuticos dentro de secuencias de vídeo de larga duración.
+
+La autora partió de la premisa de que la enfermedad de Parkinson, caracterizada por la pérdida de coordinación y control motor, requiere un monitoreo preciso de la ejecución de las terapias. Para ello, su estudio se basó en el análisis de esqueletos digitales (\textit{skeletonization}) extraídos de los fotogramas del vídeo, una técnica heredada de trabajos de máster anteriores (Ramírez Sanz y Garrido Labrador).
+
+La propuesta técnica de Núñez Calvo consistió en desarrollar un sistema capaz de comparar los patrones de movimiento del terapeuta (patrón oro) con los del paciente. Mediante algoritmos de coincidencia, el sistema lograba localizar e identificar automáticamente en qué momento exacto de la grabación del paciente se ejecutaba el ejercicio prescrito por el terapeuta, permitiendo evaluar la precisión del movimiento. El resultado final de esta investigación se materializó en una aplicación de escritorio orientada al análisis y visualización de estos recortes.
+
+\textbf{Relación y Diferenciación con el Presente Proyecto:} El análisis del trabajo de Núñez Calvo resulta fundamental para delimitar el alcance de este Trabajo de Fin de Grado. Mientras que su investigación se focalizó en el post-procesado y análisis algorítmico de los vídeos en un entorno de escritorio, el presente proyecto se centra en la etapa previa: la adquisición y digitalización del dato en un entorno móvil y doméstico. La infraestructura desarrollada en este TFG actúa como el proveedor de datos necesario para sistemas como el propuesto por Núñez Calvo. Al garantizar que el paciente graba el ejercicio correctamente en su domicilio y que dicho vídeo se transmite de forma estructurada e íntegra al servidor, se generan los insumos brutos indispensables para que, en etapas futuras, algoritmos de segmentación y evaluación automática puedan procesar dicha información. Por tanto, ambos trabajos son complementarios dentro de la arquitectura global de telerrehabilitación: uno resuelve la logística de captura (Mobile) y el otro la lógica de evaluación (Desktop/Algorítmica).
+
+\subsection{Detección de ejercicios en vídeos de rehabilitación}
+
+\begin{itemize}
+    \item \textbf{Referencia:} Espinosa Lafuente, L. A. (2024).
+    \item \textbf{Enlace:} \url{https://github.com/2023-24-TFG-jul/Deteccion-de-ejercicios-en-videos-de-rehabilitacion}
+\end{itemize}
+
+Este proyecto representa la continuación directa y la evolución funcional de la línea de investigación iniciada por Núñez Calvo. Si el trabajo anterior se centraba en la segmentación temporal (identificar el intervalo de tiempo del ejercicio), la investigación de Espinosa Lafuente avanzó hacia la valoración cualitativa de la ejecución motora.
+
+El núcleo de su contribución residió en la automatización del proceso de evaluación clínica. Partiendo de los módulos de extracción de esqueletos y recorte temporal desarrollados en los trabajos precedentes, el autor implementó algoritmos capaces de comparar biomecánicamente el vídeo del paciente frente al del profesional.
+
+El principal desafío técnico resuelto en este estudio fue la gestión de la variabilidad temporal. Dado que los pacientes con enfermedad de Parkinson suelen ejecutar los movimientos con bradicinesia (lentitud) o ritmos irregulares, el sistema fue diseñado para comparar eficazmente dos secuencias de vídeo aunque estas tuvieran duraciones distintas. El resultado de este procesamiento es la generación automática de una puntuación objetiva sobre el desempeño del usuario, visualizable a través de una interfaz web desarrollada para tal fin.
+
+\textbf{Relación Funcional:} La relación entre el trabajo de Espinosa Lafuente y el actual es de interdependencia funcional. El sistema de evaluación automática propuesto por Espinosa requiere una entrada de datos constante y estandarizada para funcionar. Mientras que su TFG se focalizó en la algoritmia de comparación y la visualización web de resultados, el presente proyecto resuelve la problemática de la adquisición remota del dato. La aplicación móvil aquí desarrollada actúa como el eslabón logístico necesario para capturar el vídeo en el domicilio del paciente, garantizar su integridad y enviarlo al servidor. En un escenario de despliegue real, la infraestructura móvil de este TFG sería la encargada de alimentar con vídeos validados al motor de puntuación desarrollado por Espinosa Lafuente.
+
+\section{Soluciones Comerciales de Referencia}
+
+Más allá del ámbito académico, existen aplicaciones en el mercado que han abordado el diseño de interfaces para poblaciones con necesidades especiales o que implementan flujos de navegación lineal (``modo túnel'') similares a los propuestos en este proyecto para el perfil de paciente.
+
+\subsection{Big Launcher}
+
+Esta aplicación es un referente en accesibilidad móvil para personas mayores o con problemas de visión. Su filosofía de diseño coincide plenamente con la implementada en el perfil de paciente de nuestro proyecto:
+
+\begin{itemize}
+    \item \textbf{Interfaz simplificada:} Sustituye la complejidad estándar de Android por una cuadrícula de botones grandes y de alto contraste.
+    \item \textbf{Navegación lineal y jerarquía plana:} Elimina menús ocultos o gestos complejos, priorizando que cada acción tenga un botón visible y único.
+    \item \textbf{Prevención de errores:} Bloquea funciones críticas para evitar borrados accidentales o desconfiguraciones, un principio que hemos aplicado en el flujo de grabación ``manos libres'' para evitar que el paciente interrumpa la sesión involuntariamente.
+\end{itemize}
+
+\subsection{Lumosity}
+
+Aunque es una aplicación de entrenamiento cognitivo, su diseño de experiencia de usuario (UX) es un modelo de navegación guiada o ``modo túnel''.  
+
+\begin{itemize}
+    \item \textbf{Flujo ``Túnel'':} Al iniciar el entrenamiento diario, la app toma el control y guía al usuario de un ejercicio al siguiente sin devolverlo al menú principal hasta terminar la sesión. Este es exactamente el comportamiento implementado en nuestra ``Sesión Guiada'', donde el paciente es llevado automáticamente de la visualización del ejemplo a la grabación y luego al siguiente ejercicio.
+    \item \textbf{Feedback inmediato y simple:} Utiliza indicadores visuales claros y grandes para confirmar el éxito o la finalización de una tarea, reduciendo la carga cognitiva del usuario, un aspecto vital para pacientes con enfermedades neurodegenerativas.
+\end{itemize}
+
+\subsection{Kaia Health}
+
+Es una aplicación de terapia digital para el manejo del dolor (como dolor de espalda o EPOC) que utiliza visión por computadora en el móvil, similar al objetivo final de nuestra línea de investigación. 
+
+\begin{itemize}
+    \item \textbf{Asistente de Movimiento:} Utiliza la cámara del móvil para rastrear puntos del cuerpo y dar \textit{feedback}, validando el uso del \textit{smartphone} como herramienta de captura biométrica en el hogar, tal como proponemos.
+    \item \textbf{Interacción sin manos:} Diseñada para que el usuario coloque el móvil en una posición fija y siga las instrucciones verbales y visuales, minimizando la interacción táctil durante el ejercicio, lo cual valida nuestro enfoque de ``manos libres'' para pacientes con Parkinson.
+\end{itemize}

@@ -1,0 +1,66 @@
+\capitulo{7}{Conclusiones y Líneas de trabajo futuras}
+
+La finalización de este Trabajo de Fin de Grado representa la consecución de un hito tecnológico clave dentro de la línea de investigación propuesta por la Universidad de Burgos. Más allá del cumplimiento académico, el proyecto ha logrado diseñar, desarrollar y validar un sistema integral de telerrehabilitación que no solo satisface los requisitos funcionales iniciales, sino que aporta soluciones de ingeniería robustas a problemas complejos de accesibilidad y captura de datos multimedia.
+
+\section{Conclusiones}
+
+Tras el proceso de análisis, diseño y validación del sistema, se han extraído las siguientes conclusiones clasificadas por su área de impacto:
+
+\subsection{Perspectiva Funcional y Clínica}
+El sistema desarrollado ha validado la viabilidad técnica de trasladar la rehabilitación neurológica al entorno domiciliario sin perder rigor en el seguimiento. 
+
+\begin{itemize}
+    \item \textbf{Cambio de Paradigma (Modelo Asíncrono):} La aplicación rompe eficazmente la barrera geográfica y temporal. Al implementar un modelo de comunicación asíncrona, se soluciona el cuello de botella de la saturación en consultas presenciales y se democratiza el acceso a la terapia para pacientes del entorno rural.
+    \item \textbf{Digitalización ``End-to-End'':} Se ha logrado informatizar con éxito todo el flujo de trabajo: desde la prescripción de rutinas hasta la evaluación cuantitativa y cualitativa. Esto transforma la rehabilitación de un evento episódico a un proceso continuo y trazable.
+\end{itemize}
+
+\subsection{Accesibilidad y Experiencia de Usuario (UX)}
+Uno de los mayores retos de ingeniería fue adaptar la tecnología a un perfil de usuario con limitaciones motoras severas y baja alfabetización digital.
+
+\begin{itemize}
+    \item \textbf{Viabilidad del Diseño Inclusivo:} El uso de Jetpack Compose ha permitido implementar una interfaz no convencional, alejada de los estándares densos de Android. La priorización de elementos de gran tamaño y altos contrastes ha validado la hipótesis de que una interfaz adaptada reduce drásticamente los errores de interacción.
+    \item \textbf{Gestión de la Carga Cognitiva:} La implementación de flujos guiados y modo ``Manos Libres'' ha demostrado ser crítica. Al delegar en el software la gestión de los tiempos y el control de la cámara, se libera al paciente de la fricción tecnológica.
+\end{itemize}
+
+\subsection{Ingeniería del Software y Calidad Técnica}
+El proyecto ha superado desafíos de bajo nivel para garantizar la estabilidad y la calidad del dato bajo patrones de diseño modernos. 
+
+\begin{itemize}
+    \item \textbf{Integridad Multimedia:} La integración de la librería CameraX ha garantizado que el activo más valioso del sistema —el vídeo— se genere y persista siempre de forma íntegra, gestionando correctamente el almacenamiento local.
+    \item \textbf{Arquitectura Robusta:} La adopción del patrón MVVM y el patrón Repository, siguiendo las guías oficiales de Android, asegura un código modular. Aunque el prototipo utiliza almacenamiento local, la abstracción de fuentes de datos deja al sistema preparado para conectarse a un servidor remoto con cambios mínimos.
+    \item \textbf{Eficiencia de Ejecución:} El uso de la programación asíncrona con Kotlin Coroutines ha permitido mantener un rendimiento fluido (60 fps) gestionando simultáneamente la previsualización de cámara y la escritura de archivos.
+\end{itemize}
+
+\subsection{Aportación a la Investigación (Valor del Dato)}
+Este proyecto se constituye como el motor de adquisición de datos para las siguientes fases de la investigación académica de la Universidad de Burgos.
+
+\begin{itemize}
+    \item \textbf{Homogeneización del Dataset:} La aplicación estandariza técnicamente el formato, la resolución y el encuadre de las grabaciones, proporcionando un conjunto de datos homogéneo.
+    \item \textbf{Habilitador de IA:} Esta estandarización es el prerrequisito indispensable para que futuros algoritmos de Inteligencia Artificial puedan entrenarse con fiabilidad para la detección de poses y métricas biomecánicas.
+\end{itemize}
+
+\section{Líneas de trabajo futuras}
+
+El desarrollo actual constituye una base sólida y funcional que cumple con los objetivos del TFG. No obstante, se han identificado las siguientes vías de evolución técnica para futuras iteraciones del software:
+
+\begin{enumerate}
+    \item \textbf{Migración a Arquitectura Distribuida (Cloud):}
+    Actualmente, la persistencia de datos se realiza de forma local (\textit{Edge Storage}). El siguiente paso lógico es la transición hacia una arquitectura cliente-servidor completa bajo el estilo REST. 
+    \textit{Objetivo:} Centralizar la información en la nube utilizando FastAPI y PostgreSQL para permitir al terapeuta evaluar las sesiones desde una estación de trabajo hospitalaria.
+
+    \item \textbf{Tele-rehabilitación Síncrona (Control Remoto):} 
+    Se ha detectado la necesidad de asistir a pacientes con deterioro cognitivo severo.
+    \textit{Objetivo:} Implementar comunicación en tiempo real que habilite una ``Sesión Asistida'', donde el terapeuta tome el control remoto de la aplicación del paciente para lanzar los vídeos y gestionar la grabación.
+
+    \item \textbf{Integración de Visión por Computador e IA:}
+    Esta línea representa la convergencia final con el proyecto de investigación macro.
+    \textit{Objetivo:} Integrar librerías de Visión por Computador para automatizar el análisis biomecánico, detectando métricas objetivas (velocidad, amplitud angular) y ofreciendo \textit{feedback} correctivo en tiempo real.
+
+    \item \textbf{Estrategias de Adherencia (Gamificación):}
+    La rehabilitación exige una constancia que frecuentemente genera fatiga psicológica.
+    \textit{Objetivo:} Implementar mecánicas de ludificación (recompensas, medallas, rachas) para aumentar la motivación intrínseca y las tasas de adherencia terapéutica.
+
+    \item \textbf{Ciberseguridad y Cumplimiento Normativo:}
+    Al migrar los datos a la nube, la protección del dato médico se vuelve crítica.
+    \textit{Objetivo:} Implementar protocolos de Cifrado de Extremo a Extremo (E2EE) y garantizar el cumplimiento estricto del RGPD para la transmisión de vídeos e información sensible entre el paciente y el terapeuta.
+\end{enumerate}

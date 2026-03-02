@@ -1,0 +1,576 @@
+\apendice{Organización del Código Fuente}
+\label{apendice:D}
+
+\section{Introducción}
+Este apéndice tiene como objetivo detallar la organización interna del código fuente desarrollado para el proyecto. El sistema se ha construido siguiendo una arquitectura distribuida Cliente-Servidor, lo que implica la coexistencia de dos bases de código diferenciadas que se comunican mediante protocolo HTTP/REST:
+
+\begin{description}
+    \item[Aplicación móvil (Cliente):] desarrollada en Kotlin bajo el entorno Android Studio. Sigue el patrón de arquitectura MVVM (Model-View-ViewModel) recomendado por Google, garantizando la separación entre la interfaz de usuario y la lógica de negocio.
+    \item[API REST (Servidor):] desarrollada en Python utilizando el framework FastAPI. Sigue una arquitectura modular por capas (Routers, Schemas, Models, CRUD) para facilitar la escalabilidad y el mantenimiento.
+\end{description}
+
+A continuación, se describe la jerarquía de ficheros y directorios de ambos subsistemas.
+
+\section{Estructura de directorios}
+Para facilitar la comprensión del proyecto, se presentan únicamente los directorios y ficheros que contienen código fuente propio, omitiendo los archivos de configuración del IDE, dependencias compiladas y recursos autogenerados.
+
+\subsection{Estructura de la API}
+El backend se ha desarrollado en Python utilizando FastAPI. Se ha optado por una estructura de directorios simplificada para facilitar el despliegue y la localización de componentes, separando únicamente la lógica de pruebas (Testing) del núcleo de la aplicación.
+
+A continuación, se describen los ficheros fuente implementados:
+
+% Definimos un comando rápido para los comentarios en el árbol
+\newcommand{\codecomment}[1]{\quad\textcolor{gray}{$\rightarrow$ \textit{#1}}}
+
+\dirtree{%
+.1 /API.
+.2 /tests.
+.3 conftest.py \codecomment{Configuración del entorno de pruebas y fixtures}.
+.3 test\_login.py \codecomment{Pruebas de autenticación y seguridad}.
+.3 test\_usuarios.py \codecomment{Pruebas de gestión de usuarios (CRUD)}.
+.3 test\_ejercicios.py \codecomment{Pruebas del catálogo de ejercicios}.
+.3 test\_rutinas.py \codecomment{Pruebas de asignación de rutinas}.
+.3 test\_sesiones.py \codecomment{Pruebas de lógica de sesiones}.
+.3 test\_fichas.py \codecomment{Pruebas de pares ejercicio-rutina}.
+.3 test\_dashboard.py \codecomment{Pruebas de endpoints de resumen}.
+.2 database.py \codecomment{Configuración de conexión a PostgreSQL}.
+.2 models.py \codecomment{Definición de las tablas de la Base de Datos}.
+.2 schemas.py \codecomment{Esquemas Pydantic para validación}.
+.2 functions.py \codecomment{Funciones auxiliares y lógica reutilizable}.
+.2 main.py \codecomment{Punto de entrada de la API y Endpoints}.
+.2 requirements.txt \codecomment{Listado de dependencias}.
+}
+
+\subsection{Estructura del Cliente Android}
+La arquitectura del proyecto sigue el patrón de diseño MVVM (Model-View-ViewModel), recomendado por Google para separar la lógica de negocio de la interfaz gráfica. El código fuente se encuentra bajo el paquete \texttt{com.example.tfg} y se organiza en las siguientes capas funcionales:
+
+\dirtree{%
+.1 /app/src/main.
+.2 AndroidManifest.xml \codecomment{Permisos y Actividades}.
+.2 /java/com/example/tfg.
+.3 /api \codecomment{\textbf{CAPA DE RED}}.
+.4 ApiService.kt \codecomment{Definición de interfaces de Endpoints}.
+.4 RetrofitClient.kt \codecomment{Configuración del cliente HTTP}.
+.3 /model \codecomment{\textbf{CAPA DE DATOS}}.
+.4 AdminStats.kt.
+.4 AsignarTerapeutaRequest.kt.
+.4 CreateUserRequest.kt.
+.4 Ejercicio.kt.
+.4 EstadisticasPacienteResponse.kt.
+.4 LoginModels.kt.
+.4 Rutina.kt.
+.4 Sesion.kt.
+.4 SesionManager.kt.
+.4 UpdateUserRequest.kt.
+.4 Usuario.kt.
+.3 /ui \codecomment{\textbf{CAPA DE PRESENTACIÓN}}.
+.4 /components \codecomment{Elementos UI reutilizables}.
+.5 CameraCapture.kt \codecomment{Lógica de integración con CameraX}\cite{camerax_lib}.
+.5 VideoPlayer.kt \codecomment{Componente reproductor (ExoPlayer)}\cite{exoplayer_lib}.
+.4 /screens \codecomment{Pantallas completas}.
+.5 AdminDashboardScreen.kt.
+.5 AdminScreen.kt.
+.5 CalendarioScreen.kt.
+.5 CreateUserScreen.kt.
+.5 DetalleSesionScreen.kt.
+.5 EditUserScreen.kt.
+.5 ExerciseScreen.kt.
+.5 LoginScreen.kt.
+.5 MyPatientsScreen.kt.
+.5 PatientGraphScreen.kt.
+.5 PatientHistoryScreen.kt.
+.5 PatientHomeScreen.kt.
+.5 PatientSessionScreen.kt.
+.5 RutinaDetailScreen.kt.
+.5 SesionesScreen.kt.
+.5 TherapistScreen.kt.
+.5 UserListScreen.kt.
+.5 UserManagementScreen.kt.
+.4 /theme \codecomment{Sistema de Diseño}.
+.5 Color.kt.
+.5 Theme.kt.
+.5 Type.kt.
+.3 /viewmodel \codecomment{\textbf{CAPA DE LÓGICA}}.
+.4 AdminViewModel.kt.
+.4 CreateUserViewModel.kt.
+.4 EditUserViewModel.kt.
+.4 ExerciseDetailViewModel.kt.
+.4 ExerciseViewModel.kt.
+.4 LoginViewModel.kt.
+.4 MyPatientsViewModel.kt.
+.4 PatientSessionViewModel.kt.
+.4 PatientHistoryViewModel.kt.
+.4 PatientViewModel.kt.
+.4 RutinaDetailViewModel.kt.
+.4 RutinaViewModel.kt.
+.4 SesionViewModel.kt.
+.4 UserListViewModel.kt.
+.3 MainActivity.kt.
+.2 /res \codecomment{\textbf{RECURSOS ESTÁTICOS}}.
+.3 /drawable.
+.3 /values.
+.3 /xml.
+}
+
+\section{Manual del Programador}
+Este manual detalla los pasos necesarios para desplegar el entorno de desarrollo, configurar la base de datos y ejecutar tanto el servidor (Backend) como la aplicación móvil (Frontend) en un entorno local.
+
+\subsection{Requisitos Previos}
+Antes de iniciar la instalación, es necesario asegurarse de que el equipo cuenta con el siguiente software instalado:
+
+\begin{itemize}
+    \item \textbf{Sistema Operativo:} Windows 10/11, macOS o Linux.
+    \item \textbf{Python:} Versión 3.10 o superior.
+    \item \textbf{PostgreSQL:} Versión 14 o superior (y la herramienta pgAdmin opcionalmente).
+    \item \textbf{Java Development Kit (JDK):} Versión 11 o 17 (Requerido para Android).
+    \item \textbf{Android Studio:} Versión ``Ladybug'' o superior (con SDK Tools instaladas).
+    \item \textbf{Git:} Para el control de versiones.
+\end{itemize}
+
+\subsection{Puesta en marcha del Servidor}
+El backend utiliza FastAPI. Siga estos pasos para levantar la API REST:
+
+\begin{enumerate}
+    \item Abra una terminal en la carpeta raíz del proyecto y ejecute los siguientes comandos para crear y activar un entorno virtual aislado:
+    
+    \textbf{Crear entorno virtual:}
+\begin{verbatim}
+python -m venv venv
+\end{verbatim}
+
+    \textbf{Activar entorno (Windows):}
+\begin{verbatim}
+.\venv\Scripts\activate
+\end{verbatim}
+
+    \textbf{Activar entorno (macOS/Linux):}
+\begin{verbatim}
+source venv/bin/activate
+\end{verbatim}
+
+    \item Con el entorno activo, instale las librerías necesarias listadas en \texttt{requirements.txt}:
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+
+    \item Asegúrese de que el servicio de PostgreSQL está en ejecución.
+    \begin{itemize}
+        \item Abra pgAdmin o la consola psql.
+        \item Cree una nueva base de datos con el archivo sql que se encuentra en la carpeta BD.
+        \item Verifique que las credenciales de conexión en el archivo \texttt{database.py} coinciden con las de su máquina local (usuario postgres y su contraseña).
+    \end{itemize}
+
+    \item Inicie el servidor de desarrollo utilizando Uvicorn. El comando \texttt{--reload} permite el reinicio automático ante cambios en el código:
+\begin{verbatim}
+uvicorn main:app --reload
+\end{verbatim}
+    Si todo es correcto, la terminal mostrará: \texttt{Uvicorn running on http://127.0.0.1:8000}. Puede verificarlo accediendo a la documentación automática en: \url{http://127.0.0.1:8000/docs}.
+
+    \item Para verificar la integridad del sistema, ejecute la batería de pruebas automatizadas:
+\begin{verbatim}
+pytest\cite{pytest_framework}
+\end{verbatim}
+\end{enumerate}
+
+\subsection{Puesta en marcha del Cliente (Android)}
+La aplicación móvil requiere configurar la dirección IP del servidor local para poder comunicarse con la API.
+
+\begin{enumerate}
+    \item \textbf{Importación del Proyecto:}
+    \begin{itemize}
+        \item Abra Android Studio.
+        \item Seleccione \textbf{File > Open} y navegue hasta la carpeta \texttt{/app}.
+        \item Espere a que Gradle finalice la sincronización y descarga de dependencias.
+    \end{itemize}
+
+    \item Dado que el servidor se ejecuta en local, es necesario indicar a la App dónde encontrarlo:
+    \begin{itemize}
+        \item Abra el archivo \texttt{RetrofitClient.kt}\cite{retrofit_lib} (ubicado en \texttt{com.example.tfg.api}).
+        \item Modifique la constante \texttt{BASE\_URL}:
+        \begin{itemize}
+            \item \textbf{Si usa el Emulador de Android:} Use la IP especial \url{http://10.0.2.2:8000/}.
+            \item \textbf{Si usa un Dispositivo Físico:} Use la IP local de su ordenador (ej: \url{http://192.168.1.35:8000/}) y asegúrese de que ambos dispositivos están en la misma red Wi-Fi.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Compilación y Ejecución:}
+    \begin{itemize}
+        \item Conecte su dispositivo móvil por USB (con depuración USB activa) o inicie un Emulador que proporciona Android Studio.
+        \item Pulse el botón \textbf{Run} en la barra superior de Android Studio.
+        \item La aplicación se instalará y abrirá automáticamente en el dispositivo.
+    \end{itemize}
+\end{enumerate}
+
+\section{Compilación, Instalación y Ejecución del Proyecto}
+Este apartado describe el procedimiento técnico para compilar el código fuente de la aplicación móvil, generar los archivos ejecutables (.apk) y desplegar el servidor para que sea accesible desde dispositivos externos.
+
+\subsection{Ejecución del Servidor}
+Al estar desarrollado en Python, el backend no requiere un proceso de compilación tradicional. Sin embargo, para que la aplicación móvil (instalada en un dispositivo físico o emulador) pueda comunicarse con la API, es necesario iniciar el servidor escuchando en todas las interfaces de red.
+
+Desde la terminal, con el entorno virtual activado, ejecute:
+\begin{verbatim}
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+\end{verbatim}
+
+\begin{description}
+    \item[\texttt{--host 0.0.0.0}:] Esta opción es crítica. Permite que el servidor sea visible desde otros dispositivos conectados a la misma red Wi-Fi (como la Tablet o el móvil), y no solo desde el propio ordenador (localhost).
+    \item[\texttt{--port 8000}:] Define el puerto de escucha.
+\end{description}
+
+Una vez ejecutado, la API estará disponible en la dirección IP local de su ordenador.
+
+\subsection{Compilación del Cliente Android (Generación del APK)}
+Para instalar la aplicación en un dispositivo físico sin depender de la conexión USB constante con Android Studio, es necesario generar un paquete de instalación (APK).
+
+\textbf{Pasos para la compilación:}
+\begin{itemize}
+    \item Abra el proyecto en Android Studio.
+    \item En la barra de menú superior, seleccione: \textbf{Build > Build Bundle(s) / APK(s) > Build APK(s)}.
+    \item El entorno de desarrollo (IDE) compilará el código Kotlin y los recursos XML.
+    \item Al finalizar, aparecerá una notificación indicando la ruta del archivo generado, habitualmente en: \\
+    \texttt{app\textbackslash build\textbackslash outputs\textbackslash apk\textbackslash debug\textbackslash app-debug.apk}
+\end{itemize}
+
+\subsection{Instalación en Dispositivo Físico}
+Una vez generado el archivo .apk, existen dos métodos principales para instalarlo en el dispositivo final (Tablet o Móvil):
+
+\subsubsection*{Método A: Instalación mediante ADB (Recomendado para desarrolladores)}
+Con el dispositivo conectado por USB y la depuración activa, ejecute en la terminal:
+\begin{verbatim}
+adb install -r ruta/al/archivo/app-debug.apk
+\end{verbatim}
+El parámetro \texttt{-r} permite reinstalar la aplicación si ya existía una versión previa, conservando los datos.
+
+\subsubsection*{Método B: Instalación Manual}
+\begin{itemize}
+    \item Transfiera el archivo \texttt{app-debug.apk} al almacenamiento interno del dispositivo (vía USB, Google Drive o descarga directa).
+    \item Desde el explorador de archivos del móvil, pulse sobre el archivo APK.
+    \item Si se solicita, conceda permiso para ``Instalar aplicaciones de orígenes desconocidos''.
+    \item Pulse \textbf{Instalar} y espere a la finalización del proceso.
+\end{itemize}
+
+Una vez instalada, el icono de la aplicación aparecerá en el menú principal del dispositivo, lista para ser ejecutada.
+
+\section{Pruebas del Sistema}
+Para garantizar la calidad y robustez del software, se ha seguido una estrategia de pruebas híbrida, combinando pruebas unitarias automatizadas en el servidor con pruebas funcionales manuales en la aplicación móvil.
+
+\subsection{Pruebas Automatizadas}
+La batería de pruebas se ha estructurado de forma modular, donde cada archivo es responsable de validar un dominio específico de la lógica de negocio. A continuación, se detalla la cobertura funcional de cada componente de la suite de tests.
+
+\subsubsection{Configuración del Entorno (conftest.py)}
+Este fichero actúa como el cimiento de toda la estrategia de pruebas. No ejecuta tests por sí mismo, sino que orquesta el entorno para garantizar que las pruebas sean aisladas, deterministas y rápidas.
+
+\begin{itemize}
+    \item \textbf{Base de datos volátil:} Configura una instancia de base de datos SQLite en memoria. Esto asegura que cada ejecución parta de un estado limpio (vacío), evitando que los datos de pruebas anteriores afecten a los resultados actuales.
+    \item \textbf{Inyección de dependencias:} Sobrescribe la dependencia \texttt{get\_db} de FastAPI para que todos los endpoints utilicen esta base de datos temporal en lugar de la PostgreSQL de producción.
+    \item \textbf{Actores simulados:} Antes de cada test, crea automáticamente tres actores clave para simular interacciones reales:
+    \begin{itemize}
+        \item \textbf{Rol Admin:} Para pruebas de gestión global.
+        \item \textbf{Rol Terapeuta:} Para pruebas de asignación clínica.
+        \item \textbf{Rol Paciente:} Para pruebas de ejecución de ejercicios.
+    \end{itemize}
+    \item \textbf{Autenticación automática:} Genera y suministra Tokens JWT válidos para estos tres usuarios, permitiendo probar los endpoints protegidos sin necesidad de realizar el proceso de login en cada test.
+\end{itemize}
+
+\subsubsection{Pruebas de Usuarios y Permisos (test\_usuarios.py)}
+Este módulo valida el sistema de control de acceso basado en roles y la integridad de los datos de los usuarios.
+
+\begin{itemize}
+    \item Verifica que solo el Administrador puede listar la totalidad de usuarios del sistema, bloqueando con un error de permisos a los terapeutas que intenten acceder a datos globales.
+    \item Valida que el Administrador puede dar de alta tanto a Pacientes como a Terapeutas, asignando correctamente sus roles y DNI.
+    \item Comprueba que el sistema rechaza (\texttt{400 Bad Request}) cualquier intento de registrar un usuario con un DNI o correo electrónico que ya exista en la base de datos.
+    \item Asegura que un Terapeuta no tiene privilegios para crear nuevos usuarios en el sistema.
+    \item Valida el borrado de usuarios y la prohibición de borrar usuarios inexistentes (\texttt{404 Not Found}).
+    \item Verifica el endpoint específico que permite asignar un Terapeuta a un Paciente, estableciendo la relación en la base de datos.
+\end{itemize}
+
+\subsubsection{Pruebas del Catálogo de Ejercicios (test\_ejercicios.py)}
+Se encarga de validar la gestión del contenido multimedia y las restricciones de creación.
+
+\begin{itemize}
+    \item Confirma que los usuarios con rol de Terapeuta pueden crear nuevos ejercicios, definiendo título, descripción, zona afectada y URL de vídeo de ejemplo.
+    \item Verifica la seguridad comprobando que un Paciente no puede crear ejercicios, recibiendo un error de acceso prohibido (\texttt{403 Forbidden}).
+    \item Comprueba que el catálogo de ejercicios es visible y se devuelve en formato de lista.
+    \item Valida que un terapeuta puede borrar ejercicios que ha creado, pero el sistema devuelve error (\texttt{404}) si intenta borrar uno que no existe.
+    \item Prueba la robustez de la API enviando datos incorrectos (ej: zonas del cuerpo no definidas en el sistema o falta de campos obligatorios), esperando un error de validación (\texttt{422 Unprocessable Entity}).
+\end{itemize}
+
+\subsubsection{Pruebas de Rutinas y Fichas (test\_rutinas.py y test\_fichas.py)}
+Estos módulos validan la capacidad del sistema para agrupar ejercicios en planes de tratamiento coherentes.
+
+\begin{itemize}
+    \item Valida que el terapeuta puede crear rutinas y que estas quedan vinculadas a su ID de creador.
+    \item Asegura que los pacientes no pueden crear rutinas.
+    \item Valida que se puede crear una Rutina con un Ejercicio existente.
+    \item Verifica que, al consultar una rutina, el backend devuelve correctamente la lista de ejercicios que contiene, incluyendo los detalles del ejercicio (nombre, zona afectada) mediante la relación de base de datos.
+\end{itemize}
+
+\subsubsection{Pruebas de Sesiones (test\_sesiones.py)}
+Valida el núcleo funcional de la aplicación: la interacción diaria entre paciente y terapeuta.
+
+\begin{itemize}
+    \item Verifica que el terapeuta puede agendar una sesión para una fecha futura asociada a un paciente.
+    \item Simula el ciclo completo de rehabilitación:
+    \begin{enumerate}
+        \item Creación de la sesión.
+        \item El Paciente sube el enlace de su vídeo.
+        \item El Terapeuta revisa la sesión y añade una puntuación.
+        \item Se verifica que todos los datos persisten correctamente.
+    \end{enumerate}
+    \item Comprueba que un paciente puede listar sus propias sesiones.
+    \item Verifica que si el Paciente A intenta consultar las sesiones del Paciente B, el sistema bloquea el acceso inmediatamente (\texttt{403 Forbidden}).
+    \item Valida la lógica del endpoint que calcula cuál es la siguiente cita pendiente, discriminando correctamente entre fechas pasadas y futuras.
+\end{itemize}
+
+\subsubsection{Pruebas de estadísticas (test\_dashboard.py)}
+Valida que la lógica matemática aplicada al progreso de los pacientes es correcta, asegurando que los porcentajes y promedios reflejan fielmente la realidad clínica.
+
+\begin{itemize}
+    \item Prueba la lógica estadística creando un escenario controlado con varias sesiones puntuadas y una sesión sin realizar. Valida que el sistema ignora la sesión vacía para el cálculo y devuelve correctamente el promedio y la puntuación máxima.
+\end{itemize}
+
+\subsection{Ejecución y validación}
+Para verificar la integridad del sistema, se ha ejecutado la suite completa de pruebas en el entorno de pre-producción. El comando utilizado para el lanzamiento de las pruebas con salida detallada es:
+
+\begin{verbatim}
+pytest -v
+\end{verbatim}
+\subsection{Pruebas Manuales}
+
+Una vez verificada la lógica interna del servidor mediante pruebas unitarias, se ha procedido a la validación del sistema completo desde la perspectiva del usuario final. Para ello, se ha seguido una metodología centrada en los flujos de interacción de la aplicación móvil y su integración real con el Backend.
+
+Con el objetivo de garantizar la estabilidad en hardware real y la correcta adaptación de la interfaz a diferentes tamaños de pantalla, las pruebas se han ejecutado en dos entornos complementarios:
+
+\begin{itemize}
+    \item \textbf{Entorno Simulado (Emulador):} Dispositivo Pixel Fold (API 35). Se ha verificado el comportamiento de la aplicación en pantallas plegables y de alta resolución, asegurando la compatibilidad con las versiones más recientes de Android.
+    \item \textbf{Dispositivo Físico:} Tablet Samsung Galaxy Tab S6. Se ha validado la ergonomía, la interacción táctil y el funcionamiento de la cámara (grabación y subida) en un dispositivo de grandes dimensiones, formato idóneo para facilitar la accesibilidad al paciente.
+\end{itemize}
+
+A continuación, se documentan los escenarios críticos validados. Se ha optado por un formato de ficha técnica para detallar las precondiciones, pasos y resultados de cada prueba.
+% Definición de estilo para las tablas de prueba
+\renewcommand{\arraystretch}{1.5} % Un poco más de aire para que no se vea apelotonado
+
+% --- CP-01 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-01} & \textbf{Inicio de sesión satisfactorio (Paciente)} \\ \hline
+        \textbf{Objetivo} & Verificar que un usuario registrado puede acceder a la aplicación y recibir su token de sesión. \\ \hline
+        \textbf{Prioridad} & Alta \\ \hline
+        \textbf{Precondiciones} & 
+        \vspace*{-\baselineskip} % Truco para subir la lista y quitar espacio en blanco
+        \begin{itemize}
+            \item La API debe estar ejecutándose.
+            \item Existe un usuario en la BD (DNI: 1234, Pass: 1234).
+            \item El dispositivo tiene conexión de red.
+        \end{itemize} \\ \hline
+        \textbf{Datos de Prueba} & Usuario: \texttt{12345} | Contraseña: \texttt{12345} \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Abrir la aplicación móvil.
+            \item Introducir el DNI en el campo "Usuario".
+            \item Introducir la contraseña.
+            \item Pulsar el botón "Entrar".
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & La API devuelve HTTP 200 y Token JWT. La App almacena el token y transiciona a la pantalla de "Bienvenido". \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. El usuario accede correctamente. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Autenticación de Usuario.}
+\end{table}
+
+% --- CP-02 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-02} & \textbf{Alta de nuevo Terapeuta (Admin)} \\ \hline
+        \textbf{Objetivo} & Verificar que el administrador puede dar de alta nuevos usuarios en la base de datos a través de la interfaz. \\ \hline
+        \textbf{Prioridad} & Media \\ \hline
+        \textbf{Precondiciones} & Logueado como Administrador y situado en gestión de usuarios. \\ \hline
+        \textbf{Datos de Prueba} & Nombre: "Laura García" | DNI: 222222 | Rol: Terapeuta \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Pulsar botón "Crear Usuario".
+            \item Rellenar formulario con los datos de prueba.
+            \item Seleccionar Rol "Terapeuta".
+            \item Pulsar "Guardar Usuario".
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & Petición POST a \texttt{/users/}. Servidor responde HTTP 201. La lista se actualiza mostrando a "Laura García". \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. El usuario aparece en el listado y en PostgreSQL. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Creación de Usuario.}
+\end{table}
+
+% --- CP-03 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-03} & \textbf{Creación y asignación de sesión} \\ \hline
+        \textbf{Objetivo} & Verificar que un terapeuta puede asignar ejercicios específicos a un paciente. \\ \hline
+        \textbf{Prioridad} & Alta \\ \hline
+        \textbf{Precondiciones} & Logueado como Terapeuta. Existen pacientes y ejercicios en la BD. \\ \hline
+        \textbf{Datos de Prueba} & Paciente: "Juan Pérez" | Fechas: 10/03 al 17/03 | Ejercicios: "Sentadillas", "Caminar". \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Pulsar "Crear sesión".
+            \item Seleccionar al paciente "Juan Pérez".
+            \item Seleccionar fecha y hora.
+            \item Marcar ejercicios y confirmar.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & El backend genera una entrada en la tabla \textit{sesiones} con la fecha seleccionada. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Asignación de Sesión.}
+\end{table}
+
+% --- CP-04 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-04} & \textbf{Grabación y subida de ejercicio (Paciente)} \\ \hline
+        \textbf{Objetivo} & Comprobar la integración con la cámara, la grabación del fichero local y su subida al servidor. \\ \hline
+        \textbf{Prioridad} & \textbf{Crítica} \\ \hline
+        \textbf{Precondiciones} & 
+        \vspace*{-\baselineskip}
+        \begin{itemize}
+            \item Logueado como Paciente con sesión pendiente.
+            \item Permisos de Cámara y Almacenamiento concedidos.
+        \end{itemize} \\ \hline
+        \textbf{Datos de Prueba} & Ejercicio: "Sentadilla" | Duración: 60 seg. \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Entrar en sesión y pulsar "Grabar".
+            \item Realizar ejercicio tras la cuenta atrás.
+            \item Finalizar grabación y pulsar "Continuar" para guardar.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & 
+        \vspace*{-\baselineskip}
+        \begin{itemize}
+            \item Generación de archivo .mp4 local.
+            \item Sesión marcada como "Realizada".
+            \item Vídeo visible en la interfaz del terapeuta.
+        \end{itemize} \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. Vídeo subido y reproducible. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Grabación de Vídeo.}
+\end{table}
+
+% --- CP-05 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-05} & \textbf{Intento de Login con credenciales inválidas} \\ \hline
+        \textbf{Objetivo} & Verificar que el sistema no falla ante datos incorrectos y que informa al usuario adecuadamente. \\ \hline
+        \textbf{Prioridad} & Media \\ \hline
+        \textbf{Precondiciones} & Aplicación en pantalla de Login. \\ \hline
+        \textbf{Datos de Prueba} & DNI: \texttt{99} | Contraseña: \texttt{incorrecto} \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Introducir DNI 99.
+            \item Introducir contraseña incorrecta.
+            \item Pulsar "Entrar".
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & La API devuelve HTTP 401. Mensaje rojo: "Error: Credenciales incorrectas". No hay cambio de pantalla. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Control de Errores en Login.}
+\end{table}
+
+% --- CP-06 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-06} & \textbf{Reproducción de vídeo de ejemplo} \\ \hline
+        \textbf{Objetivo} & Verificar que el reproductor integrado carga el vídeo de ejemplo y permite volver a la grabación. \\ \hline
+        \textbf{Prioridad} & Media \\ \hline
+        \textbf{Precondiciones} & Paciente con sesión activa y ejercicio con URL válida. \\ \hline
+        \textbf{Datos de Prueba} & Ejercicio: "Levantamiento de brazos". \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Entrar en sesión y pulsar "Ver ejemplo".
+            \item Esperar inicio y fin de reproducción.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & El vídeo se reproduce con sonido. Al finalizar, se cierra el reproductor y retorna a las instrucciones. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Reproductor Multimedia.}
+\end{table}
+
+% --- CP-07 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-07} & \textbf{Flujo completo de sesión} \\ \hline
+        \textbf{Objetivo} & Verificar integridad de datos: paciente graba, sistema guarda, terapeuta visualiza. \\ \hline
+        \textbf{Prioridad} & \textbf{Crítica} \\ \hline
+        \textbf{Precondiciones} & Paciente con sesión pendiente y logeado. Terapeuta logueado. \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item \textbf{Paciente:} Grabar ejercicio, guardar y salir.
+            \item \textbf{Verificación BD:} Consultar existencia de URL de vídeo.
+            \item \textbf{Terapeuta:} Acceder al panel, verificar estado "Realizada" y reproducir vídeo.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & BD: Registro correcto. Terapeuta: Sesión finalizada y vídeo disponible para evaluación. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. Sincronización Cliente-Servidor validada. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Ciclo Completo de Información.}
+\end{table}
+
+% --- CP-08 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-08} & \textbf{Alta de nuevo ejercicio} \\ \hline
+        \textbf{Objetivo} & Comprobar que el terapeuta puede ampliar la biblioteca de ejercicios. \\ \hline
+        \textbf{Prioridad} & Media \\ \hline
+        \textbf{Precondiciones} & Logueado como Terapeuta en gestión de ejercicios. \\ \hline
+        \textbf{Datos de Prueba} & Título: "Rotación de muñeca" | Duración: 120s. \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Pulsar crear y rellenar datos.
+            \item Seleccionar vídeo de ejemplo de galería.
+            \item Guardar.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & Vídeo subido al servidor. HTTP 201. Ejercicio visible en catálogo. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Creación de Ejercicio.}
+\end{table}
+
+% --- CP-09 ---
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{gray!25} \textbf{ID: CP-09} & \textbf{Creación de Rutina Estándar} \\ \hline
+        \textbf{Objetivo} & Verificar la agrupación de ejercicios en una rutina. \\ \hline
+        \textbf{Prioridad} & Alta \\ \hline
+        \textbf{Precondiciones} & Logueado como Terapeuta. Existen ejercicios. \\ \hline
+        \textbf{Datos de Prueba} & Rutina: "Parkinson Fase Inicial A" | Ejercicios: 3 seleccionados. \\ \hline
+        \textbf{Pasos} & 
+        \vspace*{-\baselineskip}
+        \begin{enumerate}
+            \item Crear rutina, asignar nombre y descripción.
+            \item Marcar ejercicios deseados.
+            \item Guardar.
+        \end{enumerate} \\ \hline
+        \textbf{Resultado Esperado} & La rutina se guarda en BD, estableciendo las relaciones N:M con ejercicios. Visible en interfaz. \\ \hline
+        \textbf{Resultado Obtenido} & \textcolor{green!40!black}{\textbf{Correcto}}. \\ \hline
+    \end{tabularx}
+    \caption{Prueba de Creación de Rutina.}
+\end{table}

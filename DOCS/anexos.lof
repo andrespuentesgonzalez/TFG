@@ -1,0 +1,61 @@
+\babel@toc {spanish}{}\relax 
+\babel@toc {spanish}{}\relax 
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Diagrama Entidad-Relación de la base de datos}}{34}{figure.Alph3.1}%
+\contentsline {figure}{\numberline {C.2}{\ignorespaces Diagrama de Secuencia: Inicio de Sesión}}{37}{figure.Alph3.2}%
+\contentsline {figure}{\numberline {C.3}{\ignorespaces Diagrama de Secuencia: Alta de Usuario}}{38}{figure.Alph3.3}%
+\contentsline {figure}{\numberline {C.4}{\ignorespaces Diagrama de Secuencia: Asignación de Paciente}}{39}{figure.Alph3.4}%
+\contentsline {figure}{\numberline {C.5}{\ignorespaces Diagrama de Secuencia: Creación de Rutina}}{40}{figure.Alph3.5}%
+\contentsline {figure}{\numberline {C.6}{\ignorespaces Diagrama de Secuencia: Ciclo completo de sesión}}{41}{figure.Alph3.6}%
+\contentsline {figure}{\numberline {C.7}{\ignorespaces Diagrama de Secuencia: Consulta de Progreso}}{42}{figure.Alph3.7}%
+\contentsline {figure}{\numberline {C.8}{\ignorespaces Boceto: panel principal del administrador}}{46}{figure.Alph3.8}%
+\contentsline {figure}{\numberline {C.9}{\ignorespaces Boceto: gestión de usuarios}}{47}{figure.Alph3.9}%
+\contentsline {figure}{\numberline {C.10}{\ignorespaces Boceto: asignación de terapeuta}}{48}{figure.Alph3.10}%
+\contentsline {figure}{\numberline {C.11}{\ignorespaces Boceto: home del terapeuta}}{49}{figure.Alph3.11}%
+\contentsline {figure}{\numberline {C.12}{\ignorespaces Bocetos: listado y creación de ejercicios}}{49}{figure.Alph3.12}%
+\contentsline {figure}{\numberline {C.13}{\ignorespaces Bocetos: gestión de rutinas}}{50}{figure.Alph3.13}%
+\contentsline {figure}{\numberline {C.14}{\ignorespaces Bocetos: programación de sesiones}}{50}{figure.Alph3.14}%
+\contentsline {figure}{\numberline {C.15}{\ignorespaces Boceto: inicio del Paciente}}{51}{figure.Alph3.15}%
+\contentsline {figure}{\numberline {C.16}{\ignorespaces Boceto: interfaz de ejecución del paciente}}{52}{figure.Alph3.16}%
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {E.1}{\ignorespaces Panel de control del administrador}}{78}{figure.Alph5.1}%
+\contentsline {figure}{\numberline {E.2}{\ignorespaces Estadísticas del sistema}}{79}{figure.Alph5.2}%
+\contentsline {figure}{\numberline {E.3}{\ignorespaces Menú de gestión de usuarios}}{80}{figure.Alph5.3}%
+\contentsline {figure}{\numberline {E.4}{\ignorespaces Listado completo de usuarios}}{81}{figure.Alph5.4}%
+\contentsline {figure}{\numberline {E.5}{\ignorespaces Listado de terapeutas}}{82}{figure.Alph5.5}%
+\contentsline {figure}{\numberline {E.6}{\ignorespaces Modal de asignación de paciente}}{83}{figure.Alph5.6}%
+\contentsline {figure}{\numberline {E.7}{\ignorespaces Listado de pacientes}}{84}{figure.Alph5.7}%
+\contentsline {figure}{\numberline {E.8}{\ignorespaces Opcioón de cambio de terapeuta}}{85}{figure.Alph5.8}%
+\contentsline {figure}{\numberline {E.9}{\ignorespaces Dashboard del terapeuta}}{86}{figure.Alph5.9}%
+\contentsline {figure}{\numberline {E.10}{\ignorespaces Biblioteca de ejercicios}}{87}{figure.Alph5.10}%
+\contentsline {figure}{\numberline {E.11}{\ignorespaces Creación de un ejercicio}}{88}{figure.Alph5.11}%
+\contentsline {figure}{\numberline {E.12}{\ignorespaces Detalle de un ejercicio}}{89}{figure.Alph5.12}%
+\contentsline {figure}{\numberline {E.13}{\ignorespaces Biblioteca de rutinas}}{90}{figure.Alph5.13}%
+\contentsline {figure}{\numberline {E.14}{\ignorespaces Creación de una nueva rutina}}{91}{figure.Alph5.14}%
+\contentsline {figure}{\numberline {E.15}{\ignorespaces Vista de composición de rutina}}{92}{figure.Alph5.15}%
+\contentsline {figure}{\numberline {E.16}{\ignorespaces Selector de ejercicios para rutina}}{93}{figure.Alph5.16}%
+\contentsline {figure}{\numberline {E.17}{\ignorespaces Menú de gestión de sesiones}}{94}{figure.Alph5.17}%
+\contentsline {figure}{\numberline {E.18}{\ignorespaces Calendario de sesiones}}{95}{figure.Alph5.18}%
+\contentsline {figure}{\numberline {E.19}{\ignorespaces Detalle de sesiones del día}}{96}{figure.Alph5.19}%
+\contentsline {figure}{\numberline {E.20}{\ignorespaces Programación de una nueva sesión}}{97}{figure.Alph5.20}%
+\contentsline {figure}{\numberline {E.21}{\ignorespaces Listado de sesiones pendientes}}{98}{figure.Alph5.21}%
+\contentsline {figure}{\numberline {E.22}{\ignorespaces Sesiones realizadas pendientes de corrección}}{99}{figure.Alph5.22}%
+\contentsline {figure}{\numberline {E.23}{\ignorespaces Revisión de ejercicios de la sesión}}{100}{figure.Alph5.23}%
+\contentsline {figure}{\numberline {E.24}{\ignorespaces Asignación de nota}}{100}{figure.Alph5.24}%
+\contentsline {figure}{\numberline {E.25}{\ignorespaces Edición de evaluación}}{101}{figure.Alph5.25}%
+\contentsline {figure}{\numberline {E.26}{\ignorespaces Listado de pacientes del terapeuta}}{102}{figure.Alph5.26}%
+\contentsline {figure}{\numberline {E.27}{\ignorespaces Detalle de próxima sesión programada}}{103}{figure.Alph5.27}%
+\contentsline {figure}{\numberline {E.28}{\ignorespaces Alerta de paciente sin sesión}}{103}{figure.Alph5.28}%
+\contentsline {figure}{\numberline {E.29}{\ignorespaces Home del paciente con sesión disponible}}{104}{figure.Alph5.29}%
+\contentsline {figure}{\numberline {E.30}{\ignorespaces Home del paciente bloqueada}}{105}{figure.Alph5.30}%
+\contentsline {figure}{\numberline {E.31}{\ignorespaces Instrucciones del ejercicio}}{106}{figure.Alph5.31}%
+\contentsline {figure}{\numberline {E.32}{\ignorespaces Cuenta atrás de preparación}}{107}{figure.Alph5.32}%
+\contentsline {figure}{\numberline {E.33}{\ignorespaces Grabación del ejercicio}}{108}{figure.Alph5.33}%
+\contentsline {figure}{\numberline {E.34}{\ignorespaces Validación del ejercicio grabado}}{109}{figure.Alph5.34}%
+\contentsline {figure}{\numberline {E.35}{\ignorespaces Pantalla de fin de sesión}}{110}{figure.Alph5.35}%
+\contentsline {figure}{\numberline {E.36}{\ignorespaces Historial de sesiones}}{111}{figure.Alph5.36}%
+\contentsline {figure}{\numberline {E.37}{\ignorespaces Gráfica de evolución del paciente}}{112}{figure.Alph5.37}%
+\addvspace {10pt}

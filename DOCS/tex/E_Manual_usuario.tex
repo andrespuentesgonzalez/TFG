@@ -1,0 +1,574 @@
+\apendice{Documentación de Usuario}
+\label{apendice:E}
+
+\section{Introducción}
+Este documento constituye la guía de referencia para los usuarios finales y técnicos de la aplicación «Herramienta de gestión para el seguimiento de pacientes». Su objetivo es facilitar la instalación, configuración y operación del sistema para los tres perfiles de usuario identificados: Administrador, Terapeuta y Paciente.
+
+La aplicación ha sido diseñada priorizando la accesibilidad y la sencillez de uso, especialmente en el módulo del paciente, para adaptarse a personas con limitaciones motoras derivadas de enfermedades neurodegenerativas como el Parkinson.
+
+\section{Requisitos del Sistema}
+Para garantizar el despliegue y correcto funcionamiento de la plataforma en un entorno de desarrollo local, se deben cumplir las siguientes especificaciones:
+
+\begin{itemize}
+    \item \textbf{Entorno de desarrollo:} Android Studio.
+    \item \textbf{Gestor de base de datos:} PostgreSQL 13 o superior.
+    \item \textbf{Intérprete de lenguaje:} Python 3.9 o superior para la ejecución de la API.
+    \item \textbf{Dispositivo Móvil:}
+    \begin{itemize}
+        \item \textbf{Sistema Operativo:} Android 10.0 o superior.
+        \item \textbf{Almacenamiento:} Mínimo de 500 MB libres.
+        \item \textbf{Hardware:} Cámara trasera funcional y micrófono.
+    \end{itemize}
+    \item \textbf{Conectividad:} Red Wi-Fi local compartida entre el servidor (PC) y el cliente (Tablet/Móvil).
+\end{itemize}
+
+\section{Instalación y configuración del entorno}
+Dado que el sistema opera como un prototipo distribuido (Cliente-Servidor) en red local, la puesta en marcha requiere una secuencia estricta de configuración de infraestructura.
+
+\subsection{Configuración de la base de datos}
+Antes de iniciar cualquier componente de software, se debe asegurar la persistencia de datos:
+\begin{enumerate}
+    \item \textbf{Servicio:} instalar PostgreSQL y verificar que el servicio está activo en el puerto por defecto (5432).
+    \item \textbf{Carga del Esquema:} crear una nueva base de datos y ejecutar el script SQL de creación de tablas proporcionado en la carpeta \texttt{/BD} del proyecto.
+    \item \textbf{Configuración de credenciales:} verificar que la cadena de conexión en el archivo \texttt{API/database.py} coincide con las credenciales de la instalación local de PostgreSQL. Se debe actualizar la siguiente línea con el usuario, contraseña y nombre de base de datos correctos:
+\begin{center}
+    \texttt{"postgresql://user:pass@localhost:5432/TFG\_BaseDeDatos"}
+\end{center}
+\end{enumerate}
+
+\subsection{Despliegue del servidor}
+El núcleo lógico del sistema debe estar operativo para recibir peticiones:
+\begin{enumerate}
+    \item \textbf{Activación:} acceder a la terminal en la carpeta raíz del servidor y activar el entorno virtual con \texttt{venv\textbackslash Scripts\textbackslash activate} (Windows) o \texttt{source venv/bin/activate} (Linux/Mac).
+    \item \textbf{Ejecución:} lanzar la API mediante el comando: \\
+    \texttt{uvicorn main:app --host 0.0.0.0 --port 8000}. \\
+    El uso del host \texttt{0.0.0.0} es imprescindible para exponer el servicio a la red local.
+\end{enumerate}
+
+\subsection{Sincronización de la dirección IP}
+La comunicación entre dispositivos requiere configurar la dirección de red correcta, ya que \texttt{localhost} no es válido para dispositivos externos:
+\begin{enumerate}
+    \item \textbf{Identificación:} obtener la dirección IP privada del ordenador servidor (ej. \texttt{192.168.1.35}) mediante el comando \texttt{ipconfig} o \texttt{ifconfig}.
+    \item \textbf{Configuración:} abrir el proyecto en Android Studio, localizar la clase \texttt{RetrofitClient} y actualizar la constante \texttt{BASE\_URL} con la IP obtenida.
+\end{enumerate}
+
+\subsection{Escenarios de ejecución y pruebas}
+El sistema admite dos modalidades de validación:
+\begin{itemize}
+    \item \textbf{Ejecución en emulador:} si se utiliza el emulador integrado en el mismo PC que el servidor, se puede configurar Retrofit con la IP \texttt{10.0.2.2}, que actúa como puente al host local.
+    \item \textbf{Ejecución en dispositivo físico:} para pruebas reales, el dispositivo debe estar conectado a la misma red Wi-Fi que el PC. En este caso, es obligatorio usar la IP privada configurada en el paso anterior.
+\end{itemize}
+
+\subsection{Instalación de la aplicación}
+\begin{enumerate}
+    \item \textbf{Compilación:} generar el archivo \texttt{app-release.apk} desde Android Studio una vez actualizada la IP.
+    \item \textbf{Permisos:} habilitar la instalación desde orígenes desconocidos en el dispositivo Android.
+    \item \textbf{Despliegue:} instalar el APK y conceder los permisos de cámara y almacenamiento en el primer inicio.
+\end{enumerate}
+
+\section{Manual del usuario: rol administrador}
+
+\subsection{Introducción}
+El perfil de administrador actúa como el gestor central de la plataforma, encargándose de la seguridad, el mantenimiento de cuentas y la supervisión global del sistema.
+
+\subsection{Panel de control}
+Al iniciar sesión, el administrador accede a la pantalla principal de navegación (fig.~\ref{fig:admin_home}). Este panel centraliza el acceso a las dos grandes áreas funcionales del sistema mediante tarjetas de acceso directo.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/AdminHome.png}
+    \caption{Panel de control del administrador}
+    \label{fig:admin_home}
+\end{figure}
+
+Desde aquí se bifurcan las operaciones:
+\begin{itemize}
+    \item \textbf{Gestión de usuarios:} para administrar altas, bajas y permisos.(fig.~\ref{fig:admin_gestion_usuarios})
+    \item \textbf{Estadísticas del sistema:} para la monitorización de datos globales.(fig.~\ref{fig:admin_stats})
+\end{itemize}
+
+\subsection{Estadísticas del sistema}
+Al seleccionar la opción «Estadísticas del Sistema», el administrador accede a un cuadro de mando informativo.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Admin-Stats1.png}
+    \caption{Estadísticas del sistema}
+    \label{fig:admin_stats}
+\end{figure}
+
+En este módulo, el administrador puede consultar métricas consolidadas sobre el uso de la aplicación, incluyendo información relacionada con el volumen de usuarios registrados, el inventario de ejercicios y rutinas creadas, así como el seguimiento de las sesiones de rehabilitación realizadas y pendientes de corrección.
+
+\subsection{Gestión de usuarios}
+Al acceder al módulo de «Gestión de Usuarios»(fig.~\ref{fig:admin_gestion_usuarios}), el sistema presenta un submenú intermedio que divide las operaciones en dos flujos de trabajo diferenciados:
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Admin-GestionUsuarios.png}
+    \caption{Menú de gestión de usuarios}
+    \label{fig:admin_gestion_usuarios}
+\end{figure}
+
+\subsubsection{Crear nuevo usuario}
+Seleccionando la primera opción, se inicia el asistente de alta.
+\begin{itemize}
+    \item \textbf{Formulario:} el administrador debe completar los campos requeridos (Nombre, Apellidos, DNI y Contraseña temporal).
+    \item \textbf{Rol:} es crítico seleccionar el perfil adecuado (Paciente, Terapeuta o Administrador) ya que esto determinará los permisos y la interfaz que verá el usuario.
+\end{itemize}
+
+\subsubsection{Ver y gestionar usuarios}
+Seleccionando la segunda opción, se accede al directorio completo de la base de datos(fig.~\ref{fig:admin_usuarios_todos}). Esta pantalla es el centro de operaciones para la vinculación clínica.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Admin-UsuariosTodos.png}
+    \caption{Listado completo de usuarios}
+    \label{fig:admin_usuarios_todos}
+\end{figure}
+
+\textbf{A. Filtrado y organización} \\
+La interfaz dispone de una barra de pestañas superior para segmentar la lista:
+\begin{itemize}
+    \item \textbf{Todos / Admins:} vista general.
+    \item \textbf{Sin Asignar:} filtro de alerta que muestra exclusivamente a los pacientes que no tienen terapeuta, facilitando su identificación rápida.
+\end{itemize}
+
+\textbf{B. Gestión de terapeutas} \\
+En la pestaña «Terapeutas»(fig.~\ref{fig:admin_terapeutas}), cada tarjeta profesional incluye herramientas de gestión.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Admin-UsuariosTerapeutas.png}
+    \caption{Listado de terapeutas}
+    \label{fig:admin_terapeutas}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Acción de asignar:} pulsando el botón «Asignar Paciente», se abre una ventana emergente con la lista de pacientes disponibles(fig.~\ref{fig:admin_asignar_paciente}). Al seleccionar uno, se crea el vínculo clínico en la base de datos.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Admin-AsignarPaciente.png}
+    \caption{Modal de asignación de paciente}
+    \label{fig:admin_asignar_paciente}
+\end{figure}
+
+\textbf{C. Gestión de pacientes} \\
+En la pestaña «Pacientes», el sistema muestra visualmente el estado de cada usuario.(fig.~\ref{fig:admin_pacientes})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Admin-UsuariosPacientes.png}
+    \caption{Listado de pacientes}
+    \label{fig:admin_pacientes}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Indicadores:} un texto en rojo alerta si el paciente está desatendido.
+    \item \textbf{Cambio de profesional:} al editar un paciente, el administrador puede utilizar la función «Cambiar Terapeuta» para transferir el expediente de ese paciente a otro profesional sanitario diferente.(fig.~\ref{fig:admin_cambiar_terapeuta})
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Admin-CambiarTerapeuta.png}
+    \caption{Opcioón de cambio de terapeuta}
+    \label{fig:admin_cambiar_terapeuta}
+\end{figure}
+
+\section{Manual del usuario: rol terapeuta}
+
+\subsection{Introducción al perfil}
+El perfil de Terapeuta es el encargado de generar el contenido clínico de la plataforma. Su responsabilidad principal es poblar la base de datos con ejercicios terapéuticos, diseñar rutinas de trabajo personalizadas y evaluar el desempeño de los pacientes asignados.
+
+\subsection{Panel de gestión}
+Al iniciar sesión, el terapeuta accede a un panel simplificado diseñado para la productividad clínica(fig.~\ref{fig:terapeuta_home}). La pantalla principal divide las competencias en cuatro grandes bloques funcionales:
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/TerapeutaHome.png}
+    \caption{Dashboard del terapeuta}
+    \label{fig:terapeuta_home}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Gestión de ejercicios:} acceso a la biblioteca multimedia de movimientos.(fig.~\ref{fig:terapeuta_ejercicios})
+    \item \textbf{Gestión de rutinas:} herramienta para agrupar ejercicios en planes de trabajo.(fig.~\ref{fig:terapeuta_rutinas})
+    \item \textbf{Sesiones y evaluación:} calendario para programar terapias y corregir vídeos.(fig.~\ref{fig:terapeuta_sesiones_menu})
+    \item \textbf{Mis pacientes:} listado de usuarios bajo supervisión directa.(fig.~\ref{fig:terapeuta_mis_pacientes})
+\end{itemize}
+
+\subsection{Gestión de ejercicios}
+Al seleccionar la primera opción, se accede a la biblioteca de ejercicios(fig.~\ref{fig:terapeuta_ejercicios}). Este es el repositorio central donde residen todos los movimientos que pueden ser prescritos a los pacientes.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-Ejercicios.png}
+    \caption{Biblioteca de ejercicios}
+    \label{fig:terapeuta_ejercicios}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Listado:} cada tarjeta representa un ejercicio disponible, mostrando su nombre, la zona corporal afectada y la duración estimada.
+    \item \textbf{Propiedad:} la etiqueta azul «Mío» permite al terapeuta identificar rápidamente el contenido que él mismo ha creado frente al contenido global o de otros compañeros.
+    \item \textbf{Acciones:} iconos para editar (lápiz) o eliminar (papelera) el ejercicio.
+\end{itemize}
+
+\subsubsection{Crear nuevo ejercicio}
+Pulsando el botón flotante «+ Nuevo Ejercicio», se abre el formulario de alta(fig.~\ref{fig:terapeuta_crear_ejercicio}). Es un paso crítico, ya que aquí se define el patrón de movimiento que el paciente deberá imitar.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-CrearEjercicio.png}
+    \caption{Creación de un ejercicio}
+    \label{fig:terapeuta_crear_ejercicio}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Datos:} se debe introducir un nombre descriptivo, seleccionar la zona afectada (ej. Torso, Extremidades Superiores) y estimar la duración.
+    \item \textbf{Material multimedia:} el botón «Seleccionar Vídeo de Galería» permite subir el archivo de vídeo que servirá de modelo. Este es el vídeo que el paciente verá en su tablet antes de grabarse.
+\end{itemize}
+
+\subsubsection{Detalle del ejercicio}
+Al pulsar sobre cualquier tarjeta del listado, se abre una ventana modal informativa que permite revisar las instrucciones técnicas del ejercicio sin entrar en modo edición.(fig.~\ref{fig:terapeuta_detalle_ejercicio})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-EjercicioDetalla.png}
+    \caption{Detalle de un ejercicio}
+    \label{fig:terapeuta_detalle_ejercicio}
+\end{figure}
+
+\subsection{Gestión de rutinas}
+Las rutinas son conjuntos lógicos de ejercicios diseñados para trabajar objetivos específicos. Al acceder a este módulo, el terapeuta ve su biblioteca de planes de trabajo.(fig.~\ref{fig:terapeuta_rutinas})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-Rutinas.png}
+    \caption{Biblioteca de rutinas}
+    \label{fig:terapeuta_rutinas}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Resumen:} cada tarjeta ofrece una vista rápida de la carga de trabajo de la rutina (número total de ejercicios y duración total acumulada en minutos).
+\end{itemize}
+
+\subsubsection{Crear nueva rutina}
+Mediante el botón «+ Nueva Rutina», se inicia el proceso de diseño.(fig.~\ref{fig:terapeuta_nueva_rutina})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-NuevaRutina.png}
+    \caption{Creación de una nueva rutina}
+    \label{fig:terapeuta_nueva_rutina}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Definición:} se asigna un nombre y una descripción opcional que ayudará al paciente a entender el objetivo de la terapia.
+    \item \textbf{Composición inicial:} desde esta misma pantalla se pueden empezar a añadir ejercicios, o bien guardar la rutina vacía para editarla posteriormente.
+\end{itemize}
+
+\subsubsection{Edición y composición de la rutina}
+Al entrar en el detalle de una rutina creada, el terapeuta accede a la vista de composición. Aquí se define la secuencia exacta de ejercicios. (fig.~\ref{fig:terapeuta_rutina_detalle})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-RutinaDetalle.png}
+    \caption{Vista de composición de rutina}
+    \label{fig:terapeuta_rutina_detalle}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Añadir contenido:} pulsando el botón «+ Añadir Ejercicio», el sistema despliega un buscador conectado a la Biblioteca de Ejercicios.(fig.~\ref{fig:terapeuta_agregar_ejercicio})
+
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-RutinaAgregarEjercicio.png}
+    \caption{Selector de ejercicios para rutina}
+    \label{fig:terapeuta_agregar_ejercicio}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Selección:} el terapeuta selecciona el ejercicio deseado del desplegable y pulsa «Añadir». El ejercicio se incorpora inmediatamente a la lista secuencial de la rutina.
+\end{itemize}
+
+\subsection{Gestión de sesiones y evaluación}
+Al seleccionar la opción «Sesiones y Evaluación» en el panel principal, el terapeuta accede al centro de control del tratamiento(fig.~\ref{fig:terapeuta_sesiones_menu})
+. Este módulo actúa como agenda y herramienta de corrección. El menú principal ofrece tres vías de acceso:
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-Sesiones.png}
+    \caption{Menú de gestión de sesiones}
+    \label{fig:terapeuta_sesiones_menu}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Calendario mensual:} para una visión global de la planificación.(fig.~\ref{fig:terapeuta_calendario})
+
+    \item \textbf{Ver todas las sesiones:} listado tipo agenda para gestión diaria y corrección.
+
+    \item \textbf{Programar nueva sesión:} acceso directo para asignar tareas.(fig.~\ref{fig:terapeuta_nueva_sesion})
+
+\end{itemize}
+
+\subsubsection{Calendario de planificación}
+La vista de calendario permite identificar rápidamente la carga de trabajo del mes.(fig.~\ref{fig:terapeuta_calendario})
+\begin{itemize}
+    \item \textbf{Indicadores visuales:} los días con sesiones programadas aparecen marcados con puntos naranjas bajo el número del día. El día seleccionado se resalta con un círculo azul.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-Calendario.png}
+    \caption{Calendario de sesiones}
+    \label{fig:terapeuta_calendario}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Detalle del día:} al pulsar sobre un día específico, se despliega una ventana emergente que lista todas las citas de esa fecha, mostrando la hora, el paciente y la rutina asignada.(fig.~\ref{fig:terapeuta_calendario_detalle})
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-CalendarioDetalle.png}
+    \caption{Detalle de sesiones del día}
+    \label{fig:terapeuta_calendario_detalle}
+\end{figure}
+
+\subsubsection{Programación de nuevas sesiones}
+El terapeuta puede crear una cita individualizada mediante el asistente de «Nueva Sesión».(fig.~\ref{fig:terapeuta_nueva_sesion})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-NuevaSesion.png}
+    \caption{Programación de una nueva sesión}
+    \label{fig:terapeuta_nueva_sesion}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Configuración:} se selecciona la fecha/hora, el paciente destinatario y la rutina a realizar (o ``Sin rutina'' para ejercicios sueltos).
+    \item \textbf{Tiempo de preparación:} una característica clave es el control deslizante de «Tiempo de preparación». Esto permite al terapeuta ajustar cuántos segundos tendrá el paciente desde que pulsa ``Grabar'' hasta que la cámara empieza a capturar, adaptándose a la movilidad reducida del usuario.
+\end{itemize}
+
+\subsubsection{Flujo de seguimiento y corrección }
+Al acceder a «Ver Todas las Sesiones», la interfaz organiza el trabajo en tres pestañas superiores:
+
+\textbf{A. Pestaña pendientes} \\
+Muestra las sesiones futuras o aquellas que el paciente aún no ha realizado. Sirve para verificar la agenda próxima.(fig.~\ref{fig:terapeuta_sesiones_pendientes})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-SesionesPendientes.png}
+    \caption{Listado de sesiones pendientes}
+    \label{fig:terapeuta_sesiones_pendientes}
+\end{figure}
+
+\textbf{B. Pestaña realizadas} \\
+Esta es la pantalla de trabajo diario. Muestra las sesiones que los pacientes ya han ejecutado y enviado al servidor.(fig.~\ref{fig:terapeuta_sesiones_realizadas})
+\begin{itemize}
+    \item \textbf{Estado:} Las tarjetas muestran una etiqueta naranja «Pendiente Corrección», indicando que el terapeuta debe revisarlas.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-SesionesRealizadas.png}
+    \caption{Sesiones realizadas pendientes de corrección}
+    \label{fig:terapeuta_sesiones_realizadas}
+\end{figure}
+
+\textbf{C. Proceso de evaluación} \\
+Al pulsar sobre una sesión realizada, se abre la ficha de evaluación.(fig.~\ref{fig:terapeuta_evaluar_sesion})
+\begin{enumerate}
+    \item \textbf{Revisión multimedia:} el sistema lista los ejercicios realizados. Mediante el botón azul «Ver», el terapeuta reproduce el vídeo grabado por el paciente para analizar la ejecución motora.
+\end{enumerate}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-EvaluarSesion.png}
+    \caption{Revisión de ejercicios de la sesión}
+    \label{fig:terapeuta_evaluar_sesion}
+\end{figure}
+
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item \textbf{Calificación:} pulsando el botón verde «Evaluar / Corregir», aparece el control deslizante de nota (0 a 10). Esta valoración es subjetiva y clínica.(fig.~\ref{fig:terapeuta_poner_nota})
+\end{enumerate}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-PonerNota.png}
+    \caption{Asignación de nota}
+    \label{fig:terapeuta_poner_nota}
+\end{figure}
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item \textbf{Edición:} si se requiere modificar una nota ya puesta, el sistema permite reabrir la evaluación mediante el botón «Editar Evaluación».(fig.~\ref{fig:terapeuta_editar_nota})
+\end{enumerate}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-EditarNota.png}
+    \caption{Edición de evaluación}
+    \label{fig:terapeuta_editar_nota}
+\end{figure}
+
+\subsection{Mis pacientes}
+La última opción del panel principal es el directorio «Mis Pacientes»(fig.~\ref{fig:terapeuta_mis_pacientes}). A diferencia del administrador (que gestiona altas/bajas), esta vista está enfocada en el seguimiento clínico rápido.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Terapeuta-MisPacientes.png}
+    \caption{Listado de pacientes del terapeuta}
+    \label{fig:terapeuta_mis_pacientes}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Acceso rápido:} cada tarjeta de paciente incluye un botón directo «Próxima sesión» y el correo de contacto.
+\end{itemize}
+
+\subsubsection{Consulta de próxima cita}
+Al pulsar el botón de próxima sesión, el sistema informa del estado inmediato del paciente:
+\begin{itemize}
+    \item \textbf{Con planificación:} si hay terapia programada, muestra una ficha detallada con la fecha, la rutina, la duración estimada y la lista de ejercicios a realizar.(fig.~\ref{fig:terapeuta_proxima_sesion})
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-MisPacientesProximasesion.png}
+    \caption{Detalle de próxima sesión programada}
+    \label{fig:terapeuta_proxima_sesion}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Sin planificación:} Si la agenda está vacía, el sistema alerta al terapeuta para que programe una nueva sesión y no se interrumpa el tratamiento.(fig.~\ref{fig:terapeuta_sin_sesion})
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Capturas_Interfaz/Terapeuta-PacienteSinSesion.png}
+    \caption{Alerta de paciente sin sesión}
+    \label{fig:terapeuta_sin_sesion}
+\end{figure}
+
+\section{Manual del usuario: rol paciente}
+
+\subsection{Introducción al perfil}
+La interfaz del paciente ha sido diseñada bajo el paradigma de «Navegación Lineal» o «Modo Túnel». A diferencia de los perfiles anteriores, aquí se eliminan los menús complejos y las opciones de configuración para ofrecer una experiencia libre de distracciones, adaptada a usuarios con baja competencia digital o limitaciones motoras.
+
+\subsection{Pantalla principal}
+Al acceder a la aplicación, el paciente se encuentra con una pantalla de bienvenida que le informa de forma inequívoca sobre su estado actual. Existen dos estados posibles:
+
+\textbf{A. Sesión Disponible} \\
+Si el paciente tiene programada una sesión para el día y hora actuales (o si el plazo está abierto), el sistema muestra la fecha en gran tamaño y habilita un botón verde de alto contraste «ENTRAR».(fig.~\ref{fig:paciente_home_sesion})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-HomeConSesion.png}
+    \caption{Home del paciente con sesión disponible}
+    \label{fig:paciente_home_sesion}
+\end{figure}
+
+\textbf{B. Sesión Bloqueada} \\
+Si no hay tareas pendientes o la fecha de la sesión es futura, la interfaz se bloquea mostrando un candado y la fecha de la próxima cita (fig.~\ref{fig:paciente_home_bloqueada}). Esto evita que el paciente realice ejercicios fuera de la pauta clínica o se confunda de día.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-SinSesion.png}
+    \caption{Home del paciente bloqueada}
+    \label{fig:paciente_home_bloqueada}
+\end{figure}
+
+\subsection{Ejecución de la sesión}
+Al pulsar «Entrar», la aplicación toma el control y guía al usuario paso a paso a través de la rutina, sin que este tenga que seleccionar qué ejercicio toca.
+
+\textbf{Paso 1: instrucción y modelado} \\
+Se presenta el ejercicio actual (ej. "Flexión de Codo").(fig.~\ref{fig:paciente_instrucciones})
+\begin{itemize}
+    \item \textbf{Vídeo de ejemplo:} en la parte central se reproduce en bucle el vídeo grabado por el terapeuta.
+    \item \textbf{Texto:} instrucciones escritas en fuente grande y legible.
+    \item \textbf{Acción:} el usuario solo debe pulsar el botón inferior «¡ESTOY LISTO! GRABAR» cuando haya entendido el movimiento.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-SesionDetalle.png}
+    \caption{Instrucciones del ejercicio}
+    \label{fig:paciente_instrucciones}
+\end{figure}
+
+\textbf{Paso 2: preparación } \\
+Para dar tiempo al paciente a colocarse frente a la cámara, el sistema inicia una cuenta regresiva (configurada previamente por el terapeuta, ej. 10 segundos) con alertas visuales.(fig.~\ref{fig:paciente_preparacion})
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-SesionPreparacion.png}
+    \caption{Cuenta atrás de preparación}
+    \label{fig:paciente_preparacion}
+\end{figure}
+
+\textbf{Paso 3: grabación y ejecución} \\
+La cámara se activa automáticamente(fig.~\ref{fig:paciente_grabando}). El paciente debe realizar el ejercicio mientras observa el temporizador en la parte superior.
+\begin{itemize}
+    \item \textbf{Botón detener:} si el paciente termina antes de tiempo o se cansa, puede finalizar la grabación manualmente. Si no, la grabación se detendrá sola al cumplir el tiempo estipulado.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-SesionGrabando.png}
+    \caption{Grabación del ejercicio}
+    \label{fig:paciente_grabando}
+\end{figure}
+
+\subsection{Validación y progreso}
+Tras cada ejercicio, el sistema no guarda el vídeo inmediatamente, sino que pregunta al usuario.
+
+\textbf{Confirmación de calidad} \\
+Se muestra una pantalla intermedia con dos opciones claras(fig.~\ref{fig:paciente_validacion}):
+\begin{itemize}
+    \item \textbf{CONTINUAR (Verde):} envía el vídeo al servidor y pasa al siguiente ejercicio de la rutina.
+    \item \textbf{REPETIR (Naranja):} descarta el vídeo grabado y permite al paciente volver a intentarlo. Esta función es vital para reducir la frustración si la ejecución no ha sido buena.
+\end{itemize}
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-FinEjercicio.png}
+    \caption{Validación del ejercicio grabado}
+    \label{fig:paciente_validacion}
+\end{figure}
+
+\textbf{Finalización de la terapia} \\
+Una vez completados todos los ejercicios de la secuencia, se muestra una pantalla de éxito con un trofeo(fig.~\ref{fig:paciente_fin_sesion}). La aplicación redirige automáticamente al inicio tras unos segundos.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-FinSesion.png}
+    \caption{Pantalla de fin de sesión}
+    \label{fig:paciente_fin_sesion}
+\end{figure}
+
+\subsection{Historial y evolución}
+Desde la pantalla principal, pulsando el botón azul inferior «HISTORIAL», el paciente puede consultar su progreso terapéutico.(fig.~\ref{fig:paciente_historial})
+
+\textbf{Listado de valoraciones} \\
+Muestra las sesiones pasadas con la calificación numérica (0-10) y cualitativa (estrellas) otorgada por el terapeuta.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-Historial.png}
+    \caption{Historial de sesiones}
+    \label{fig:paciente_historial}
+\end{figure}
+
+\textbf{Gráfica de evolución} \\
+Pulsando el botón superior «GRÁFICA», se despliega una visualización lineal del rendimiento(fig.~\ref{fig:paciente_grafica}). Esto permite al paciente (y a sus familiares) observar la tendencia de mejora a lo largo del tiempo, fomentando la motivación y la adherencia al tratamiento.
+
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/Capturas_Interfaz/Paciente-Grafica.png}
+    \caption{Gráfica de evolución del paciente}
+    \label{fig:paciente_grafica}
+\end{figure}

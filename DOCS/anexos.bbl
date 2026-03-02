@@ -1,0 +1,120 @@
+\begin{thebibliography}{10}
+
+\bibitem{atlassian_jira}
+{Atlassian}.
+\newblock Jira software: La herramienta de desarrollo número uno para equipos
+  ágiles.
+\newblock \url{https://www.atlassian.com/es/software/jira}, 2025.
+\newblock Accedido en febrero de 2025.
+
+\bibitem{boe_convenio_tic_2025}
+{Boletín Oficial del Estado}.
+\newblock Resolución de 4 de abril de 2025, de la dirección general de
+  trabajo, por la que se registra y publica el xix convenio colectivo estatal
+  de empresas de consultoría...
+\newblock {\em Boletín Oficial del Estado (BOE)}, 2025.
+\newblock Enlace al documento:
+  \url{https://www.boe.es/buscar/doc.php?id=BOE-A-2025-7766}.
+
+\bibitem{pydantic_docs}
+Samuel Colvin.
+\newblock Pydantic v2: Validación de datos mediante anotaciones de tipo.
+\newblock \url{https://docs.pydantic.dev/latest/}, 2025.
+
+\bibitem{fielding_rest}
+Roy~Thomas Fielding.
+\newblock {\em Estilos arquitectónicos y el diseño de arquitecturas de
+  software basadas en red}.
+\newblock PhD thesis, University of California, Irvine, 2000.
+\newblock Tesis doctoral:
+  \url{https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm}.
+
+\bibitem{camerax_lib}
+{Google Developers}.
+\newblock Descripción general de camerax (jetpack).
+\newblock \url{https://developer.android.com/media/camera/camerax?hl=es-419},
+  2025.
+
+\bibitem{android_arch_guide}
+{Google Developers}.
+\newblock Guía de arquitectura de aplicaciones android (2025).
+\newblock \url{https://developer.android.com/topic/architecture?hl=es-419},
+  2025.
+
+\bibitem{jetpack_compose}
+{Google Developers}.
+\newblock Jetpack compose: Herramientas modernas para interfaces nativas
+  (2025).
+\newblock \url{https://developer.android.com/jetpack/compose?hl=es-419}, 2025.
+
+\bibitem{exoplayer_lib}
+{Google Developers}.
+\newblock Media3 exoplayer v1.5: Guía de implementación.
+\newblock \url{https://developer.android.com/media/media3/exoplayer?hl=es-419},
+  2025.
+
+\bibitem{rfc7519_jwt}
+M.~Jones, J.~Bradley, and N.~Sakimura.
+\newblock Json web token (jwt) - rfc 7519.
+\newblock Technical report, IETF, 2015.
+
+\bibitem{un_agenda_2030}
+{Naciones Unidas}.
+\newblock Transformar nuestro mundo: la agenda 2030 para el desarrollo
+  sostenible.
+\newblock
+  \url{https://www.un.org/sustainabledevelopment/es/development-agenda/}, 2015.
+
+\bibitem{uml_spec}
+{Object Management Group (OMG)}.
+\newblock {\em Especificación del Lenguaje de Modelado Unificado (UML),
+  Versión 2.5.1}, 2017.
+\newblock Disponible en: \url{https://www.omg.org/spec/UML/2.5.1/}.
+
+\bibitem{pactomundialODS10}
+{Pacto Mundial de la ONU España}.
+\newblock Ods 10: Reducción de las desigualdades, n.d.
+\newblock Disponible en:
+  \url{https://www.pactomundial.org/ods/10-reduccion-de-las-desigualdades/}.
+
+\bibitem{pactomundialODS13}
+{Pacto Mundial de la ONU España}.
+\newblock Ods 13: Acción por el clima, n.d.
+\newblock Disponible en:
+  \url{https://www.pactomundial.org/ods/13-accion-por-el-clima/}.
+
+\bibitem{pactomundialODS3}
+{Pacto Mundial de la ONU España}.
+\newblock Ods 3: Salud y bienestar, n.d.
+\newblock Disponible en:
+  \url{https://www.pactomundial.org/ods/3-salud-y-bienestar/}.
+
+\bibitem{pactomundialODS9}
+{Pacto Mundial de la ONU España}.
+\newblock Ods 9: Industria, innovación e infraestructura, n.d.
+\newblock Disponible en:
+  \url{https://www.pactomundial.org/ods/9-industria-innovacion-e-infraestructura/}.
+
+\bibitem{bcrypt_algo}
+Niels Provos and David Mazières.
+\newblock Un esquema de contraseñas adaptable al futuro (bcrypt).
+\newblock \url{https://www.usenix.org/legacy/events/usenix99/provos.html},
+  1999.
+
+\bibitem{scrum_guide}
+Ken Schwaber and Jeff Sutherland.
+\newblock {\em La Guía de Scrum: Las Reglas del Juego}.
+\newblock Scrum.org, 2020.
+\newblock Versión oficial en español:
+  \url{https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-Spanish-European.pdf}.
+
+\bibitem{retrofit_lib}
+{Square, Inc.}
+\newblock Retrofit v2.11: Cliente http para android y java.
+\newblock \url{https://square.github.io/retrofit/}, 2025.
+
+\bibitem{postgresql_docs}
+{The PostgreSQL Global Development Group}.
+\newblock {\em Documentación oficial de PostgreSQL 17}, 2025.
+
+\end{thebibliography}

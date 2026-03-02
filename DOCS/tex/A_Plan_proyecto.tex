@@ -1,0 +1,271 @@
+\apendice{Planificación y Gestión del Proyecto}
+\label{apendice:A}
+
+\section{Introducción}
+El presente apéndice detalla la estrategia de organización, planificación y seguimiento adoptada para el desarrollo del Trabajo de Fin de Grado. Se describe la metodología de gestión seleccionada para abordar la naturaleza incremental del proyecto, así como el desglose cronológico de las tareas realizadas a lo largo de las diferentes iteraciones (Sprints) hasta la consecución del prototipo final.
+
+\section{Metodología de Gestión}
+Dada la naturaleza exploratoria del proyecto y la necesidad de adaptar los requisitos funcionales a las limitaciones técnicas descubiertas durante el desarrollo, se ha optado por una metodología de gestión ágil basada en \textbf{Scrum}\cite{scrum_guide}.
+
+El ciclo de vida del software se ha dividido en iteraciones incrementales denominadas \textit{Sprints}, con una duración estándar de \textbf{2 semanas}. Esta estrategia ha permitido:
+\begin{itemize}
+    \item Una evaluación continua del progreso.
+    \item La validación temprana de funcionalidades críticas (como la grabación de vídeo).
+    \item Una rápida adaptación a los cambios sugeridos por el equipo docente.
+\end{itemize}
+
+Para el seguimiento de las tareas, la asignación de prioridades y el control del \textit{Backlog}, se ha utilizado la herramienta \textbf{Jira Software}\cite{atlassian_jira}, permitiendo una trazabilidad completa del estado del desarrollo.
+
+\section{Planificación Temporal}
+
+A continuación, se detalla el trabajo realizado en cada iteración del proyecto:
+
+% --- SPRINT 1 ---
+\subsection{Sprint 1: Toma de contacto y análisis inicial}
+\textbf{Objetivos:} El objetivo principal de esta primera iteración fue la comprensión del alcance del proyecto y la formalización de la metodología de trabajo. Se estableció la comunicación con los tutores y se revisó la propuesta para confirmar la viabilidad del desarrollo.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Primera reunión presencial con el equipo docente para la presentación de la propuesta del TFG y explicación de los objetivos.
+    \item Lectura y análisis de la documentación inicial proporcionada para entender los requisitos del sistema de rehabilitación.
+    \item Confirmación de la realización del trabajo y definición del calendario de seguimiento.
+\end{itemize}
+
+% --- SPRINT 2 ---
+\subsection{Sprint 2: Análisis, selección tecnológica y puesta en marcha}
+\textbf{Objetivos:} El objetivo de esta iteración fue doble: por un lado, asimilar el contexto clínico del proyecto (subproyecto de detección de Parkinson) y, por otro, establecer y preparar la infraestructura técnica necesaria para comenzar a programar.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Estudio de la documentación facilitada sobre el proyecto de colaboración con el Hospital Universitario de Burgos. Comprensión de los requisitos de telerrehabilitación y la necesidad de extraer poses a partir de vídeo.
+    \item Evaluación de alternativas y selección final de \textbf{Android Studio} y lenguaje \textbf{Kotlin} para el desarrollo de la aplicación móvil.
+    \item Descarga e instalación del IDE Android Studio.
+    \item Primer contacto y familiarización con la interfaz de desarrollo y la estructura de proyectos en Kotlin.
+\end{itemize}
+
+% --- SPRINT 3 ---
+\subsection{Sprint 3: Especificación de requisitos funcionales}
+\textbf{Objetivos:} Tras la familiarización con las herramientas, el objetivo fue aterrizar el alcance del proyecto. Se trabajó en la traducción de las necesidades clínicas y académicas en una lista formal de funcionalidades técnicas.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Obtención del listado preliminar de características necesarias (gestión de usuarios, grabación de vídeo, roles diferenciados) proporcionado por los tutores.
+    \item Estudio de cada característica solicitada para determinar su implicación técnica.
+    \item \textbf{Redacción de Requisitos (v1):} Elaboración de la primera versión del documento de Requisitos Funcionales, definiendo los actores del sistema (Administrador, Terapeuta, Paciente) y sus casos de uso principales.
+\end{itemize}
+
+% --- SPRINT 4 ---
+\subsection{Sprint 4: Refinamiento y Completitud de Requisitos}
+\textbf{Objetivos:} Consolidar la especificación del sistema. Se revisó la primera versión de los requisitos funcionales junto con los tutores para corregir ambigüedades y se procedió a definir los requisitos no funcionales.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item \textbf{Revisión de requisitos funcionales:} Análisis del feedback recibido sobre la versión inicial (v1). Corrección de errores y redefinición de casos de uso complejos (ej: flujo exacto de la subida de vídeo).
+    \item \textbf{Definición de requisitos no funcionales:} Identificación y documentación de las restricciones del sistema, poniendo foco en:
+    \begin{itemize}
+        \item \textit{Usabilidad:} Adaptación para pacientes con Parkinson (botones grandes, flujos simples).
+        \item \textit{Seguridad:} Protección de datos médicos y gestión de contraseñas.
+        \item \textit{Rendimiento:} Tiempos de respuesta aceptables para la subida de multimedia.
+    \end{itemize}
+    \item Consolidación de ambos documentos para establecer la base de la arquitectura.
+\end{itemize}
+
+% --- SPRINT 5 ---
+\subsection{Sprint 5: Cierre de especificación y modelado conceptual}
+\textbf{Objetivos:} Dar por finalizada la fase de análisis, obteniendo una versión estable de los requisitos. Inicio de la fase de diseño técnico con la identificación preliminar de entidades de información.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Incorporación de las últimas correcciones a los documentos de Requisitos.
+    \item Lluvia de ideas y definición conceptual de los datos a almacenar. Se identificaron las entidades principales:
+    \begin{itemize}
+        \item \textit{Usuarios y Roles:} Necesidad de distinguir entre Pacientes, Terapeutas y Administradores.
+        \item \textit{Estructura Clínica:} Definición de qué compone una Rutina (conjunto de ejercicios) y una Sesión (ejecución de una rutina en una fecha).
+    \end{itemize}
+\end{itemize}
+
+% --- SPRINT 6 ---
+\subsection{Sprint 6: Diseño de datos detallado y modelado relacional}
+\textbf{Objetivos:} Transformar el modelo conceptual en un esquema lógico robusto. Se detalló la estructura interna de la base de datos para garantizar la integridad referencial.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item \textbf{Definición de atributos:} Especificación técnica de los campos necesarios para cada entidad (tipos de datos, claves primarias, restricciones).
+    \item \textbf{Establecimiento de relaciones:} Definición de cardinalidad y claves foráneas:
+    \begin{itemize}
+        \item Relación 1:N (Un Terapeuta supervisa múltiples Pacientes).
+        \item Relación N:M (Una Rutina se compone de múltiples Ejercicios).
+    \end{itemize}
+    \item \textbf{Diagrama Relacional:} Creación del esquema gráfico formal para la implementación en SQL.
+\end{itemize}
+
+% --- SPRINT 7 ---
+\subsection{Sprint 7: Implementación de la Persistencia y Base de Datos}
+\textbf{Objetivos:} Materializar la capa de datos. Se validó el diagrama relacional y se procedió a la implementación física de la base de datos.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Revisión final del diagrama diseñado para comprobar su cobertura con las historias de usuario.
+    \item Decisión de utilizar \textbf{PostgreSQL} como SGBD por su robustez.
+    \item Escritura y ejecución de los scripts de creación de tablas y definición de restricciones de integridad.
+    \item Instalación del servidor PostgreSQL y generación de la estructura vacía.
+\end{itemize}
+
+% --- SPRINT 8 ---
+\subsection{Sprint 8: Arquitectura del Backend y selección de FastAPI}
+\textbf{Objetivos:} Establecer la capa de lógica de negocio. Se evaluaron frameworks para la API REST y se configuró la conexión con la base de datos.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Decisión de utilizar \textbf{FastAPI} por su alto rendimiento, documentación automática y tipado estático.
+    \item Estudio de la documentación oficial y realización de pruebas de concepto (modelos Pydantic).
+    \item Creación de la estructura de carpetas del servidor y entorno virtual Python.
+    \item Implementación del esqueleto de la API y configuración de drivers de conexión con PostgreSQL.
+\end{itemize}
+
+% --- SPRINT 9 ---
+\subsection{Sprint 9: Desarrollo móvil: módulos de gestión}
+\textbf{Objetivos:} Trasladar la lógica de negocio al cliente móvil. Se implementó la interfaz y lógica para los roles de gestión (Administrador y Terapeuta).
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Definición de la estructura de navegación y componentes base.
+    \item \textbf{Módulo de Administrador:} Implementación de alta de usuarios y vinculación de pacientes con terapeutas.
+    \item \textbf{Módulo de Terapeuta:} Desarrollo de interfaces para creación de rutinas, fichas de ejercicios y consulta de listado de pacientes.
+    \item \textbf{Integración Cliente-Servidor:} Conexión de interfaces con los endpoints de la API.
+\end{itemize}
+
+% --- SPRINT 10 ---
+\subsection{Sprint 10: Desarrollo del Módulo de Paciente y Lógica de Sesiones}
+\textbf{Objetivos:} Completar la visión del usuario final. Se desarrolló la interfaz específica para el perfil de Paciente, priorizando la accesibilidad.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item \textbf{Interfaz de Paciente:} Desarrollo de pantallas de visualización con criterios de accesibilidad (botones grandes, textos claros).
+    \item \textbf{Lógica de Sesiones:} Programación del algoritmo que consulta a la API las tareas pendientes:
+    \begin{itemize}
+        \item \textit{Sincronización:} Verificación de fecha actual y descarga de rutina programada.
+        \item \textit{Estado:} Control visual de las sesiones.
+    \end{itemize}
+    \item \textbf{Flujo de Ejecución:} Secuencia guiada paso a paso desde la selección hasta las instrucciones.
+\end{itemize}
+
+% --- SPRINT 11 ---
+\subsection{Sprint 11: Implementación Multimedia y Cierre}
+\textbf{Objetivos:} Integrar la funcionalidad crítica: gestión de vídeo. Implementación de grabación, reproducción y subida al servidor.
+
+\textbf{Tareas Realizadas:}
+\begin{itemize}
+    \item Integración de reproductor de vídeo nativo para visualizar ejemplos.
+    \item Implementación de captura de vídeo (API de cámara) configurando calidad y compresión.
+    \item Desarrollo del servicio de red para envío de ficheros pesados (.mp4).
+    \item Resolución de errores (bugfixing) y ajustes finales para obtener una versión estable.
+\end{itemize}
+
+\section{Viabilidad Económica}
+
+El estudio de la viabilidad económica tiene como objetivo evaluar los costes derivados del desarrollo del proyecto frente a los beneficios esperados.
+
+Es importante destacar que, dado el contexto académico de este Trabajo de Fin de Grado, el proyecto nace con una finalidad docente y de investigación clínica, sin un objetivo de monetización directa a corto plazo. No obstante, para realizar un cálculo realista, se simulará un entorno empresarial donde se ha contratado a un ingeniero junior (el alumno) bajo el marco legal vigente.
+
+El marco temporal del proyecto abarca desde el 23 de septiembre, fecha de inicio oficial, hasta la entrega final el 13 de febrero. Esto supone una duración aproximada de 5 meses de desarrollo activo.
+
+\subsection{Costes de Personal}
+Para el cálculo de los costes de recursos humanos, se han tenido en cuenta los siguientes perfiles y cargas de trabajo.
+
+\paragraph{1. Ingeniero Desarrollador (Alumno)}
+Se ha considerado una dedicación parcial para ajustarse a las 300 horas estimadas de desarrollo efectivo. Para establecer el coste por hora, se ha tomado como referencia el \textbf{Convenio colectivo estatal de empresas de consultoría y estudios de mercado}\cite{boe_convenio_tic_2025}.
+
+Se ha categorizado el perfil como \textit{Programador Junior} (Área 3, Grupo E). El coste unitario de \textbf{20,00 €/hora} incluye el salario bruto prorrateado y los costes de Seguridad Social a cargo de la empresa.(tab.~\ref{tab:coste_ingeniero})
+
+\begin{table}[h]
+\small
+\centering
+\caption{Coste del ingeniero desarrollador (Según Convenio TIC)}
+\label{tab:coste_ingeniero}
+\begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.2\textwidth} p{0.15\textwidth}}
+    \toprule
+    \textbf{Concepto} & \textbf{Detalle} & \textbf{Cálculo} & \textbf{Importe} \\
+    \midrule
+    Coste por Hora & Convenio TIC (Junior + SS) & 20,00 € / hora & - \\
+    \midrule
+    Dedicación Mensual & Media jornada / Parcial & 60 horas / mes & - \\
+    \midrule
+    Coste Mensual & Estimación media (5 meses) & 60h x 20€ & 1.200,00 € \\
+    \midrule
+    \textbf{COSTE TOTAL} & \textbf{Total Proyecto (300h)} & \textbf{300h x 20€} & \textbf{6.000,00 €} \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Costes de amortización de hardware}
+Dado que el software utilizado es de licencia abierta o gratuita, el coste material se centra en la amortización del hardware adquirido para el proyecto durante los 5 meses de uso.(tab.~\ref{tab:amortizacion})
+
+\begin{table}[h]
+\small
+\centering
+\caption{Amortización de equipos informáticos}
+\label{tab:amortizacion}
+\begin{tabular}{p{0.25\textwidth} p{0.15\textwidth} p{0.15\textwidth} p{0.25\textwidth} p{0.15\textwidth}}
+    \toprule
+    \textbf{Recurso} & \textbf{Valor} & \textbf{Vida Útil} & \textbf{Cálculo (5 meses)} & \textbf{Coste} \\
+    \midrule
+    Portátil Desarrollo & 1.700,00 € & 48 meses & $(1.700 / 48) * 5$ & 177,08 € \\
+    \midrule
+    Móvil Android & 300,00 € & 48 meses & $(300 / 48) * 5$ & 31,25 € \\
+    \midrule
+    \textbf{TOTAL} & & & & \textbf{208,33 €} \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Costes indirectos y generales}
+Los costes indirectos son aquellos gastos necesarios para el funcionamiento de la actividad pero que no pueden atribuirse directamente a una tarea de programación específica. Se incluyen suministros (electricidad, fibra óptica) y la parte proporcional del espacio de trabajo.(tab.~\ref{tab:costes_indirectos})
+
+\begin{table}[h]
+\centering
+\caption{Costes indirectos}
+\label{tab:costes_indirectos}
+\begin{tabular}{p{0.4\textwidth} p{0.2\textwidth} p{0.2\textwidth} p{0.15\textwidth}}
+    \toprule
+    \textbf{Concepto} & \textbf{Mensual} & \textbf{Duración} & \textbf{Total} \\
+    \midrule
+    Suministros (Luz/Internet) & 60,00 € & 5 meses & 300,00 € \\
+    \midrule
+    Espacio de Trabajo & 90,00 € & 5 meses & 450,00 € \\
+    \midrule
+    \textbf{TOTAL INDIRECTOS} & \textbf{150,00 €} & \textbf{-} & \textbf{750,00 €} \\
+    \bottomrule
+\end{tabular}
+\end{table}
+\subsection{Resumen del presupuesto}
+A continuación, se presenta el presupuesto total de ejecución material del proyecto. Se ha añadido un 10\% de margen de contingencia para mitigar posibles riesgos o desviaciones financieras típicas en proyectos de I+D.(tab.~\ref{tab:presupuesto_general})
+
+\begin{table}[h]
+\centering
+\caption{Presupuesto general del proyecto}
+\label{tab:presupuesto_general}
+\begin{tabular}{p{0.6\textwidth} p{0.3\textwidth}}
+    \toprule
+    \textbf{Concepto} & \textbf{Importe} \\
+    \midrule
+    1. Costes de Personal (Incl. SS) & 6.000,00 € \\
+    \midrule
+    2. Amortización Hardware & 208,33 € \\
+    \midrule
+    3. Costes Indirectos & 750,00 € \\
+    \midrule
+    \textit{Subtotal Costes del Proyecto} & \textit{6.958,33 €} \\
+    \midrule
+    4. Contingencia (10\%) & 695,83 € \\
+    \midrule
+    \rowcolor{gray!30} \textbf{PRESUPUESTO TOTAL} & \textbf{7.654,16 €} \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Conclusión económica}
+El coste total estimado para el desarrollo de este prototipo funcional asciende a \textbf{7.654,16 €}. Esta cifra representa la inversión necesaria para cubrir el ciclo de ingeniería de software (análisis, diseño, implementación y pruebas) bajo un modelo de dedicación parcial de 300 horas. El presupuesto integra tanto los costes directos de personal (ajustados a convenio) y amortización de equipos como los costes indirectos y un margen de contingencia del 10\%, garantizando una estimación financiera realista y profesional para la ejecución del proyecto.
+
+\subsection*{Conclusión del estudio de viabilidad}
+Aunque el balance financiero arroja un resultado de coste de ejecución de 7.654,16 € sin ingresos directos en esta fase, el proyecto se considera altamente viable y rentable desde una perspectiva socio-sanitaria. La optimización del presupuesto y la eficiencia en la carga de horas permiten obtener un producto mínimo viable (MVP) con una inversión contenida. El coste de desarrollo resulta marginal si se compara con el ahorro potencial que supone para el sistema de salud público la mejora en la autonomía de los pacientes con Parkinson y la prevención de complicaciones derivadas de la inactividad física a largo plazo.

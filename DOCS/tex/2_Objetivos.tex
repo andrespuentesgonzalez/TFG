@@ -1,0 +1,53 @@
+\capitulo{2}{Objetivos del Proyecto}
+
+El propósito de este Trabajo de Fin de Grado trasciende la mera implementación de software; su finalidad última es aportar una solución de ingeniería efectiva a una problemática sociosanitaria estructural. Para definir el alcance del proyecto y guiar el proceso de desarrollo, se establecieron tres categorías de objetivos: funcionales, técnicos y personales.
+
+\section{Objetivos funcionales}
+
+Definen las metas operativas que el sistema debe satisfacer para resolver las necesidades clínicas y logísticas de los usuarios finales.
+
+\begin{itemize}
+    \item \textbf{Digitalización integral del proceso terapéutico:} transformar el flujo de rehabilitación analógico en un ecosistema digital continuo que cubra las tres fases del tratamiento: la prescripción remota de rutinas personalizadas, la ejecución guiada en el domicilio y la evaluación clínica diferida.
+
+    \item \textbf{Centralización del conocimiento terapéutico:} implementar un sistema de gestión de contenidos que permita la creación, clasificación y mantenimiento de una biblioteca digital global de ejercicios. El objetivo es dotar al servicio de rehabilitación de un repositorio de recursos audiovisuales reutilizable y escalable para la configuración de terapias.
+
+    \item \textbf{Garantía de accesibilidad y autenticación delegada:} diseñar una interfaz adaptada a la sintomatología de la enfermedad de Parkinson y eliminar las barreras de acceso tecnológicas. Se busca permitir que el administrador gestione la sesión en el dispositivo antes de su entrega, liberando al paciente de la gestión de credenciales y ofreciéndole un entorno simplificado basado en interacciones mínimas.
+
+    \item \textbf{Generación de evidencia clínica objetiva:} implementar mecanismos de verificación que obliguen a la captura de vídeo para validar la realización de los ejercicios. Se busca sustituir el reporte subjetivo del paciente por pruebas visuales tangibles, creando un repositorio de datos útil tanto para la corrección inmediata como para la investigación médica futura.
+
+    \item \textbf{Fomento de la adherencia y motivación:} incorporar mecanismos de retroalimentación que permitan al paciente visualizar su evolución histórica y las calificaciones emitidas por el terapeuta, utilizando el refuerzo positivo para mantener el compromiso con la rutina de ejercicios a largo plazo.
+
+    \item \textbf{Optimización de recursos asistenciales:} desacoplar la atención sanitaria de la coincidencia temporal y espacial. El objetivo es permitir que un único terapeuta pueda gestionar y supervisar a un mayor volumen de pacientes de forma eficiente, revisando las sesiones en momentos de baja carga asistencial y optimizando los tiempos de consulta presencial.
+
+    \item \textbf{Gestión estricta de roles y privacidad:} establecer un sistema de control de acceso jerárquico que segmente las funcionalidades y la visualización de datos sensibles según el perfil del usuario (Administrador, Terapeuta o Paciente), garantizando la confidencialidad de la información médica.
+\end{itemize}
+
+\section{Objetivos técnicos}
+
+Este apartado recoge los desafíos de ingeniería y los estándares de calidad software establecidos como meta para la construcción del sistema.
+
+\begin{itemize}
+    \item \textbf{Diseño de arquitectura desacoplada y escalable:} implementar un patrón de arquitectura de software que separe estrictamente la lógica de negocio, la capa de presentación y el acceso a datos. El objetivo es evitar el código monolítico para garantizar la mantenibilidad, la testeabilidad y la capacidad del sistema para evolucionar sin requerir reescrituras estructurales.
+
+    \item \textbf{Adopción de paradigmas de interfaz reactivos:} investigar y aplicar estándares modernos de desarrollo de interfaces declarativas. Se busca abandonar los modelos imperativos tradicionales en favor de sistemas reactivos donde la interfaz gráfica sea un reflejo directo e inmutable del estado de la aplicación, minimizando errores de sincronización visual.
+
+    \item \textbf{Abstracción y gestión robusta de hardware:} lograr una integración nativa y estable de la cámara y micrófono dentro del flujo de la aplicación. El reto técnico consiste en gestionar el ciclo de vida de los componentes para prevenir bloqueos, asegurar la sincronización multimedia y garantizar la compatibilidad con la fragmentación del ecosistema de dispositivos móviles.
+
+    \item \textbf{Gestión eficiente del ciclo de vida del dato multimedia:} diseñar mecanismos para la administración del almacenamiento. Dado el alto consumo de recursos del vídeo, el objetivo es dotar al sistema de políticas configurables de retención y purgado, garantizando la sostenibilidad del sistema sin comprometer el historial clínico reciente.
+
+    \item \textbf{Seguridad y protección del dato por diseño:} implementar mecanismos criptográficos para la protección de la información sensible. El objetivo es asegurar que las credenciales de acceso y los registros clínicos se almacenen y transmitan bajo protocolos seguros, cumpliendo con los principios de integridad y confidencialidad exigidos en el software sanitario.
+\end{itemize}
+
+\section{Objetivos personales}
+
+Más allá de los requisitos académicos, este proyecto se concibe como un vector para la maduración profesional del ingeniero.
+
+\begin{itemize}
+    \item \textbf{Competencia ``Full Stack'':} adquirir un dominio transversal del ciclo de vida del desarrollo de aplicaciones. El objetivo es capacitarse tanto en la ingeniería de la interfaz de usuario (Frontend) como en el diseño de la lógica de servidor, APIs y bases de datos (Backend), comprendiendo la integración entre ambas capas.
+
+    \item \textbf{Resolución de problemas en entornos de producción:} trascender el ámbito teórico para enfrentar desafíos propios de la ingeniería real, tales como la tolerancia a fallos del hardware.
+
+    \item \textbf{Especialización en \textit{e-Health}:} desarrollar la habilidad para traducir requisitos clínicos abstractos en especificaciones técnicas precisas. Se busca comprender las implicaciones éticas y funcionales del desarrollo de software para el sector salud, donde la fiabilidad y la accesibilidad son requisitos críticos de seguridad.
+
+    \item \textbf{Aplicación de metodologías ágiles:} ejercitar la capacidad de autogestión y planificación mediante la adopción de marcos de trabajo iterativos, permitiendo una adaptación flexible ante los imprevistos técnicos y una entrega continua de valor funcional.
+\end{itemize}

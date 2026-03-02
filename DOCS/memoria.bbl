@@ -1,0 +1,124 @@
+\begin{thebibliography}{10}
+
+\bibitem{bcrypt_tool}
+Bcrypt-generator.
+\newblock Bcrypt {G}enerator \& {T}ool.
+\newblock \url{https://bcrypt-generator.com/}, 2026.
+\newblock Herramienta de verificación de hashing.
+
+\bibitem{uoc_ehealth}
+{Biblioteca UOC}.
+\newblock e{H}ealth: la transformación del modelo asistencial.
+\newblock
+  \url{https://biblioteca.uoc.edu/es/biblioguias/biblioguia/eHealth-la-transformacion-del-modelo-asistencial},
+  2026.
+\newblock Análisis sobre la digitalización de la salud.
+
+\bibitem{pydantic_ref}
+Samuel Colvin.
+\newblock Pydantic v2 {D}ocumentation.
+\newblock \url{https://docs.pydantic.dev/latest/}, 2026.
+\newblock Validación de datos en el servidor.
+
+\bibitem{esed_sandboxing}
+{ESED}.
+\newblock Sandboxing: qué es, cómo funciona y protección ante malware.
+\newblock
+  \url{https://www.esedsl.com/blog/sandboxing-que-es-como-funciona-y-como-te-protege-ante-malware},
+  2026.
+\newblock Conceptos de seguridad y aislamiento de procesos.
+
+\bibitem{git_ref}
+Git.
+\newblock Git: {S}istema de control de versiones distribuido.
+\newblock \url{https://git-scm.com/}, 2026.
+\newblock Gestión de código fuente.
+
+\bibitem{material_design_3}
+Google.
+\newblock Material {D}esign 3.
+\newblock \url{https://m3.material.io/}, 2026.
+\newblock Sistema de diseño utilizado en la aplicación.
+
+\bibitem{kotlin_coroutines_ref}
+{Google Developers}.
+\newblock Corrutinas de {K}otlin en {A}ndroid.
+\newblock \url{https://developer.android.com/kotlin/coroutines?hl=es-419},
+  2026.
+\newblock Gestión de tareas asíncronas.
+
+\bibitem{android_studio_intro}
+{Google Developers}.
+\newblock Introducción a {A}ndroid {S}tudio.
+\newblock \url{https://developer.android.com/studio/intro?hl=es-419}, 2026.
+\newblock Manual del entorno de desarrollo.
+
+\bibitem{jetpack_compose_ref}
+{Google Developers}.
+\newblock Jetpack {C}ompose: {I}nterfaces nativas modernas.
+\newblock \url{https://developer.android.com/compose}, 2026.
+\newblock Documentación del kit de UI.
+
+\bibitem{exoplayer_ref}
+{Google Developers}.
+\newblock Media3 {E}xo{P}layer: {R}eproducción multimedia.
+\newblock \url{https://developer.android.com/media/media3/exoplayer?hl=es-419},
+  2026.
+\newblock Librería para la visualización de vídeos.
+
+\bibitem{draw_io_ref}
+{JGraph Ltd}.
+\newblock Draw.io: {H}erramienta de creación de diagramas.
+\newblock \url{https://www.drawio.com/}, 2026.
+\newblock Software utilizado para el modelado de datos.
+
+\bibitem{mayo_parkinson}
+{Mayo Clinic}.
+\newblock Enfermedad de {P}arkinson: {S}íntomas y causas.
+\newblock
+  \url{https://www.mayoclinic.org/es/diseases-conditions/parkinsons-disease/symptoms-causes/syc-20376055},
+  2026.
+\newblock Referencia médica sobre la patología.
+
+\bibitem{parkinson_bradicinesia}
+{Parkinson's Foundation}.
+\newblock Bradicinesia: {S}íntomas motores del {P}arkinson.
+\newblock
+  \url{https://www.parkinson.org/espanol/entendiendo-parkinson/sintomas-motores/bradicinesia},
+  2026.
+\newblock Definición técnica de la lentitud de movimiento.
+
+\bibitem{python_org}
+{Python Software Foundation}.
+\newblock {P}ython {P}rogramming {L}anguage.
+\newblock \url{https://www.python.org/}, 2026.
+\newblock Sitio oficial del lenguaje del Backend.
+
+\bibitem{so_kotlin}
+{Stack Overflow}.
+\newblock Comunidad de desarrollo y resolución de problemas en {K}otlin.
+\newblock \url{https://stackoverflow.com/questions/tagged/kotlin?tab=Newest},
+  2026.
+\newblock Recurso de consulta para desarrolladores.
+
+\bibitem{postgresql_ref}
+{The PostgreSQL Global Development Group}.
+\newblock {P}ostgre{SQL}: {L}a base de datos relacional más avanzada.
+\newblock \url{https://www.postgresql.org/}, 2026.
+\newblock Motor de persistencia de datos.
+
+\bibitem{unir_framework}
+{UNIR Revista}.
+\newblock ¿{Q}ué es un framework en programación?
+\newblock
+  \url{https://unirfp.unir.net/revista/ingenieria-y-tecnologia/framework/},
+  2026.
+\newblock Conceptos de ingeniería de software.
+
+\bibitem{wiki_mhealth}
+Wikipedia.
+\newblock m{H}ealth ({S}alud móvil).
+\newblock \url{https://es.wikipedia.org/wiki/MHealth_(salud_m%C3%B3vil)}, 2026.
+\newblock Conceptos base de salud mediante dispositivos móviles.
+
+\end{thebibliography}

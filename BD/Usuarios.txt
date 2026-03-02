@@ -1,0 +1,19 @@
+ADMINISTRADOR -> usuario: 1
+		 contraseña : admin
+
+TODOS LOS USUARIOS TIENEN DE CONTRASEÑA: admin
+
+TERAPEUTAS
+	
+Ana -> 		usuario: 101	contraseña: admin
+Pedro-> 	usuario: 102	contraseña: admin
+Lucia -> 	usuario: 103	contraseña: admin
+
+PACIENTES
+
+Roberto -> 	usuario: 201	contraseña: admin
+Elena -> 	usuario: 202	contraseña: admin
+Mario -> 	usuario: 203	contraseña: admin
+Laura -> 	usuario: 204	contraseña: admin
+Diego -> 	usuario: 205	contraseña: admin
+

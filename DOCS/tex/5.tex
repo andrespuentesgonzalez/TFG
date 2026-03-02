@@ -1,0 +1,174 @@
+\capitulo{5}{Aspectos Relevantes del Desarrollo}
+
+\section{Fase de selección de software}
+
+El inicio del ciclo de desarrollo se caracterizó por la evaluación técnica de las distintas alternativas disponibles para la implementación del sistema. Tras el análisis de requisitos, se procedió a definir la estrategia arquitectónica, priorizando la viabilidad técnica y el rendimiento sobre la velocidad de desarrollo inicial.
+
+Aunque se consideró el uso de marcos de trabajo multiplataforma o híbridos para facilitar un despliegue rápido en diversos sistemas operativos, el análisis técnico determinó que la solución óptima requería una estrategia de desarrollo nativo basada en el SDK de Android y el lenguaje Kotlin. Esta decisión de ingeniería se fundamentó en cinco criterios técnicos determinantes:
+
+\begin{enumerate}
+    \item \textbf{Eficiencia en el acceso al hardware.} Dado que la funcionalidad crítica del sistema depende de la captura intensiva de vídeo y el almacenamiento en disco, la prioridad absoluta fue minimizar la latencia y maximizar la estabilidad. Las soluciones híbridas suelen introducir capas de abstracción o puentes de comunicación que pueden comprometer el rendimiento al acceder a componentes físicos del dispositivo. El desarrollo nativo se seleccionó por ofrecer la integración más directa posible con los sensores de la cámara y el sistema de archivos, garantizando así un control preciso sobre el ciclo de vida del hardware.
+
+    \item \textbf{Seguridad y estabilidad del lenguaje.} La elección de Kotlin frente a otras alternativas como Java se basó en su condición de estándar actual en la industria móvil y sus características de seguridad en tiempo de compilación. Específicamente, su sistema de tipos diseñado para la seguridad ante valores nulos permite eliminar una amplia categoría de errores comunes que provocan el cierre inesperado de las aplicaciones. Esta característica fue considerada vital para un entorno de salud, donde la fiabilidad del software es un requisito no funcional prioritario.
+
+    \item \textbf{Madurez del entorno de ingeniería.} Se valoró la disponibilidad de herramientas avanzadas de depuración y perfilado. El ecosistema nativo, a través de Android Studio, proporciona el conjunto de instrumentos más robusto para la inspección de bases de datos, el análisis de la interfaz gráfica y la monitorización del consumo de memoria y CPU. Disponer de este nivel de observabilidad se consideró indispensable para garantizar la calidad de un software que debe gestionar procesos pesados en segundo plano.
+
+    \item \textbf{Optimización de la curva de aprendizaje.} Desde una perspectiva de gestión de proyecto, se optó por capitalizar la base de conocimientos previa adquirida durante la formación académica. La decisión estratégica de utilizar una plataforma conocida permitió reducir el tiempo dedicado a los fundamentos básicos del desarrollo. Esto liberó recursos temporales valiosos para ser invertidos en la investigación y el dominio de las tecnologías avanzadas y específicas que demandaba la complejidad del proyecto, como la programación reactiva o la concurrencia.
+
+    \item \textbf{Prioridad Tablet.} Desde la fase inicial de diseño conceptual se estableció una distinción clara respecto al dispositivo de despliegue para el módulo del paciente. A diferencia de la aplicación del terapeuta, diseñada para un uso flexible en teléfonos inteligentes, la interfaz del paciente se concibió y optimizó primariamente para su ejecución en dispositivos tipo \textit{tablet}. Esta decisión estratégica de diseño respondió a tres factores ergonómicos y funcionales ineludibles:
+    \begin{itemize}
+        \item \textbf{Maximización del área de interacción:} la sintomatología motora propia de la enfermedad, caracterizada por temblores y rigidez, dificulta la precisión en el toque sobre pantallas reducidas. El factor de forma de una \textit{tablet} proporciona una superficie táctil significativamente mayor. Esto permitió planificar desde el inicio la implementación de elementos de interfaz de gran tamaño y márgenes de error generosos, reduciendo la frustración del usuario durante la navegación.
+        \item \textbf{Visualización de contenidos terapéuticos:} dado el perfil demográfico de los usuarios, frecuentemente asociado a una edad avanzada y presbicia, el tamaño de pantalla extendido resulta indispensable. Este soporte permite la reproducción de los vídeos guía con un nivel de detalle y escala suficientes para que el paciente pueda imitar los movimientos correctamente desde cierta distancia, sin forzar la vista ni necesidad de manipular el dispositivo constantemente.
+        \item \textbf{Estabilidad en el uso manos libres:} la naturaleza de la terapia física requiere que el paciente disponga de libertad de movimiento corporal total. El formato \textit{tablet} favorece un uso estacionario, permitiendo apoyar el dispositivo de forma estable en una mesa o soporte fijo para seguir las instrucciones visuales. Esto contrasta con la ergonomía del teléfono móvil, cuyo uso habitual en mano interferiría con la correcta ejecución de la rutina de ejercicios.
+    \end{itemize}
+\end{enumerate}
+
+\section{Fase de definición de requisitos y funcionalidades}
+
+La fase de definición de requisitos constituyó uno de los pilares fundamentales del proyecto, consumiendo una parte significativa del esfuerzo de planificación. Dada la complejidad de las interacciones entre los distintos perfiles y la criticidad de los datos médicos, se descartó un enfoque lineal en favor de una metodología de refinamiento iterativo.
+
+Este proceso no se limitó a una simple enumeración de deseos, sino que implicó la reescritura constante de los casos de uso y la validación continua de las reglas de negocio. El objetivo prioritario fue alcanzar una definición del sistema lo suficientemente sólida y granular como para cubrir todos los casos bordes antes de escribir el código, facilitando así el diseño posterior de un modelo relacional robusto y libre de inconsistencias estructurales.
+
+\subsection{Definición de actores y alcance funcional}
+
+Tras múltiples ciclos de análisis, se estructuró la lógica de la aplicación en torno a tres actores claramente diferenciados, cada uno con un ámbito de responsabilidad estanco y funciones específicas.
+
+\begin{enumerate}
+    \item \textbf{Rol de Administrador:} este perfil técnico actúa como el garante de la seguridad y la organización del sistema. Su funcionalidad se ha diseñado para ser invisible al proceso clínico, pero indispensable para el funcionamiento de la plataforma.
+    \begin{itemize}
+        \item \textbf{Gestión del ciclo de vida de usuarios:} responsabilidad exclusiva sobre las operaciones de alta, baja y modificación de las credenciales de acceso, garantizando que solo personal autorizado acceda al sistema.
+        \item \textbf{Orquestación de relaciones:} Gestión de la lógica de asignación entre profesionales y usuarios. El administrador es el único facultado para establecer los vínculos o pares Terapeuta-Paciente, definiendo qué profesional tiene permisos de lectura y escritura sobre los datos de qué paciente.
+    \end{itemize}
+
+    \item \textbf{Rol de Terapeuta:} es el actor que dota de contenido al sistema. Sus requisitos funcionales se diseñaron con una estructura jerárquica para permitir una reutilización eficiente del trabajo clínico:
+    \begin{itemize}
+        \item \textbf{Gestión de Ejercicios:} capacidad para crear, editar y eliminar ejercicios base, subiendo los vídeos de ejemplo y definiendo los parámetros de ejecución.
+        \item \textbf{Gestión de Rutinas:} funcionalidad para componer conjuntos lógicos de ejercicios (rutinas) que pueden ser reutilizados. Esto evita que el terapeuta tenga que seleccionar los ejercicios uno a uno cada vez.
+        \item \textbf{Gestión de Sesiones:} es la materialización temporal de la terapia. El sistema permite asignar una rutina específica a un paciente concreto en una fecha y hora determinadas. Esta distinción entre Rutina y Sesión fue una conclusión clave del análisis para permitir la planificación a largo plazo.
+    \end{itemize}
+
+    \item \textbf{Rol de Paciente:} el diseño funcional de este actor se rige por el principio de mínima interacción necesaria. Su interfaz se ha despojado de cualquier gestión administrativa para centrarse exclusivamente en la terapia.
+    \begin{itemize}
+        \item \textbf{Realización de sesiones programadas:} acceso directo y simplificado a la sesión del día, con una guía paso a paso para la reproducción del ejemplo y la grabación de la respuesta.
+        \item \textbf{Visualización del progreso:} funcionalidad para consultar el historial de calificaciones y comentarios emitidos por el terapeuta. Este requisito se introdujo con una finalidad psicológica: fomentar la motivación y la autoestima del paciente al permitirle visualizar tangiblemente su evolución y el cumplimiento de sus objetivos.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Consolidación y diseño del modelo}
+
+La exhaustividad aplicada en esta fase de análisis tuvo un impacto directo en la calidad de la implementación posterior. La identificación temprana de entidades complejas, como la diferenciación entre rutina y sesión o la relación N:M entre terapeutas y pacientes, permitió diseñar un esquema de base de datos relacional altamente normalizado desde el inicio. Esta inversión de tiempo en la fase de requisitos minimizó drásticamente la deuda técnica y la necesidad de refactorización durante el desarrollo del código.
+
+\section{Fase de diseño e implementación}
+
+Una vez cerrados los requisitos funcionales, se abordó la construcción de la capa de persistencia. Lejos de proceder a una implementación inmediata, se priorizó una etapa de análisis estructural exhaustivo bajo la premisa de que la solidez de la lógica de negocio depende directamente de la calidad del modelo de datos subyacente.
+
+El proceso de ingeniería de datos se ejecutó siguiendo una metodología secuencial dividida en dos etapas diferenciadas:
+
+\textbf{Etapa 1:} en primera instancia se elaboró el diseño teórico del sistema mediante diagramas Entidad-Relación. Durante esta etapa el esfuerzo se focalizó en la identificación precisa de las entidades y la definición estricta de las cardinalidades entre ellas. Se aplicaron reglas de normalización para eliminar redundancias y se diseñaron las restricciones de integridad referencial sobre el plano teórico, asegurando la coherencia estructural de la información antes de escribir cualquier línea de código.
+
+\textbf{Etapa 2:} se procedió a la materialización del esquema lógico en el Sistema Gestor de Bases de Datos. El diseño teórico se tradujo a sentencias SQL y Lenguaje de Definición de Datos, generando las tablas, claves foráneas e índices necesarios para optimizar el rendimiento de las consultas que realizaría la aplicación.
+
+\subsection{Esquema Relacional del Sistema}
+
+Como resultado de este proceso de análisis, se obtuvo un modelo relacional robusto capaz de soportar la complejidad de las interacciones entre los distintos roles y la gestión temporal de las sesiones de terapia. A continuación, se presenta el diagrama final implementado en el sistema:
+
+% AQUÍ PUEDES INSERTAR LA IMAGEN DE TU DIAGRAMA ENTIDAD-RELACION
+% \imagen{nombre_archivo_diagrama}{Diagrama Entidad-Relación del sistema}
+
+\subsection{Selección del Motor de Base de Datos: PostgreSQL}
+
+Para la gestión y persistencia de la información se seleccionó el motor PostgreSQL. Esta decisión tecnológica no fue accesoria, sino que se fundamentó en dos criterios estratégicos alineados con la naturaleza del proyecto:
+
+\begin{itemize}
+    \item \textbf{Fiabilidad y cumplimiento ACID.} Dada la criticidad de los datos gestionados, correspondientes a historiales de salud y seguimiento terapéutico, la integridad de la información se estableció como un requisito no negociable. PostgreSQL fue seleccionado por su reconocida robustez y su estricto cumplimiento de las propiedades ACID, las cuales garantizan la Atomicidad, Consistencia, Aislamiento y Durabilidad de las transacciones. Esto asegura que, ante cualquier fallo del sistema o error durante una operación de escritura, la base de datos nunca quede en un estado inconsistente, protegiendo la validez de los registros médicos.
+    \item \textbf{Eficiencia operativa y capitalización de conocimiento.} Desde la perspectiva de la gestión de recursos del proyecto, se valoró la experiencia técnica previa adquirida con esta tecnología durante la formación académica. La decisión de utilizar un motor consolidado y conocido permitió agilizar drásticamente la fase de configuración de la infraestructura. Esta estrategia de optimización liberó tiempo valioso del cronograma de desarrollo, permitiendo redirigir ese esfuerzo hacia la implementación de la lógica compleja de la aplicación móvil y el procesamiento multimedia.
+\end{itemize}
+
+\section{Fase de desarrollo de la API REST}
+
+El desarrollo de la infraestructura de servidor marcó la transición del proyecto hacia una arquitectura distribuida completa. Esta fase implicó la ingeniería del \textit{Backend} con el objetivo de establecer un canal de comunicación seguro y estandarizado entre la base de datos relacional y la aplicación cliente Android.
+
+Para materializar esta conexión, se diseñó e implementó una interfaz de programación de aplicaciones basada en el estilo arquitectónico REST. Este componente actúa como la única puerta de entrada al sistema, centralizando la lógica de negocio y garantizando la integridad de los datos independientemente del dispositivo que realice la petición.
+
+\subsection{Selección de FastAPI}
+
+La elección de FastAPI como marco de trabajo para el servidor se fundamentó en criterios de eficiencia operativa y calidad del software resultante:
+
+\begin{itemize}
+    \item \textbf{Optimización de la curva de aprendizaje:} al aprovechar el dominio previo del lenguaje Python, se pudo focalizar el esfuerzo de ingeniería en la correcta implementación de los patrones REST y la seguridad, en lugar de en la sintaxis de un nuevo lenguaje.
+    \item \textbf{Documentación viva y estandarizada:} la capacidad del \textit{framework} para generar automáticamente documentación interactiva basada en el estándar OpenAPI resultó crítica para el desarrollo. Permitió la validación inmediata de los puntos de acceso o \textit{endpoints} y facilitó la integración con el cliente móvil sin necesidad de mantener documentación manual externa.
+\end{itemize}
+
+\subsection{Encapsulamiento de la Lógica de Dominio}
+
+La API no se concibió como una simple pasarela de acceso a datos, sino como el garante de las reglas de negocio del sistema. Se programaron controles estrictos en el servidor para asegurar la consistencia del modelo:
+
+\begin{itemize}
+    \item \textbf{Aislamiento contextual de datos:} se implementaron filtros de seguridad a nivel de consulta para garantizar que las peticiones de un paciente solo retornen información perteneciente a su propio historial clínico, previniendo fugas de información cruzada entre usuarios.
+    \item \textbf{Validación de estados:} el servidor gestiona la lógica de las transacciones complejas, impidiendo situaciones inconsistentes como la duplicación de rutinas en una misma fecha o la alteración de registros médicos ya consolidados.
+\end{itemize}
+
+\subsection{Seguridad y Calidad del Software}
+
+Dada la sensibilidad de la información gestionada, se aplicaron principios de seguridad desde el diseño. Se integró la librería Bcrypt para el \textit{hashing} unidireccional de contraseñas, asegurando que las credenciales de acceso nunca se almacenen en texto plano.
+
+Adicionalmente, se desarrolló una batería de pruebas de integración automatizadas. Estos tests verifican de forma continua que las restricciones de privacidad y las reglas de negocio se mantienen vigentes ante cualquier modificación del código fuente.
+
+\section{Fase de creación de aplicación móvil}
+
+Tras el despliegue de la API, se abordó la construcción de la aplicación móvil. Ante la divergencia radical de necesidades entre los perfiles de gestión y los pacientes, se optó por una arquitectura de interfaz segregada. Técnicamente, la aplicación contiene tres flujos de navegación independientes que se activan dinámicamente según el rol del usuario autenticado, comportándose como tres herramientas especializadas dentro de un mismo ejecutable.
+
+Para materializar esta segregación, el diseño de las interfaces se fundamentó en principios de usabilidad y experiencia de usuario adaptados a las competencias digitales de cada arquetipo. Se adoptó el sistema de diseño Material Design 3 para garantizar la consistencia visual y la familiaridad de los componentes interactivos. La estrategia de navegación se definió bajo dos paradigmas diferenciados. Por un lado, para el perfil de paciente se priorizó la accesibilidad y la linealidad, implementando flujos secuenciales guiados y elementos de interacción de gran tamaño que minimizan la carga cognitiva y facilitan el uso a personas con posibles limitaciones motoras o tecnológicas. Por otro lado, para el perfil terapéutico y administrativo se optó por una estructura de navegación orientada a la productividad, permitiendo el acceso rápido a la gestión de expedientes y rutinas.
+
+\subsection{Módulo de Administración: Integridad Referencial}
+
+El módulo de administración se diseñó priorizando la seguridad operativa sobre la estética. Su función es la gestión del ciclo de vida de las identidades mediante operaciones CRUD.
+
+El principal desafío técnico residió en asegurar la integridad referencial desde la interfaz de usuario. El sistema implementa validaciones previas que impiden la creación de registros inconsistentes, como la asignación de pacientes a terapeutas inexistentes, actuando como una primera línea de defensa antes de enviar la petición al servidor.
+
+\subsection{Módulo de Terapia: Eficiencia y Asincronía}
+
+La interfaz del terapeuta requirió una ingeniería enfocada en la productividad y el manejo de grandes volúmenes de datos.
+
+\begin{itemize}
+    \item \textbf{Renderizado eficiente:} se utilizaron componentes de lista perezosa para la visualización de las carteras de pacientes, optimizando el consumo de memoria al cargar los elementos bajo demanda.
+    \item \textbf{Evaluación multimedia integrada:} Se integró un reproductor de vídeo interno que permite la visualización y calificación de los ejercicios sin salir de la aplicación. Esto cierra el ciclo de telerrehabilitación, habilitando la evaluación asíncrona.
+\end{itemize}
+
+\subsection{Módulo de Paciente: Accesibilidad y Automatización}
+
+El diseño para el paciente representó el mayor reto de usabilidad. Se descartaron los patrones de navegación estándar de Android en favor de una interfaz lineal y adaptada.
+
+\begin{itemize}
+    \item Se implementó un flujo de ``Manos Libres'' donde la aplicación orquesta la sesión. El sistema reproduce automáticamente el vídeo de ejemplo y gestiona el inicio y fin de la grabación, minimizando la necesidad de interacción física táctil, lo cual es crítico para usuarios con temblores.
+    \item Adicionalmente, se integró un mecanismo de reintento inmediato que permite al paciente descartar la grabación y reiniciar el ejercicio ante cualquier dificultad. Esto garantiza la validez del material clínico y otorga flexibilidad al usuario para corregir su ejecución sin alterar el flujo automatizado de la sesión.
+\end{itemize}
+
+\subsection{Evolución y Refactorización del Motor de Sesiones}
+
+Durante la fase de integración se identificaron limitaciones en el diseño inicial que obligaron a evolucionar el software.
+
+\begin{itemize}
+    \item \textbf{Adaptación del modelo de datos:} fue necesario ampliar el esquema de base de datos y los \textit{endpoints} de la API para incluir metadatos de estado más granulares, permitiendo una gestión precisa del progreso del paciente.
+    \item \textbf{Concurrencia y actualización optimista:} Para resolver problemas de latencia en la actualización del estado de los ejercicios (completado/pendiente), se implementó un patrón de actualización optimista en la interfaz. La aplicación refleja el cambio de estado inmediatamente para el usuario, mientras sincroniza la información con el servidor en segundo plano, mejorando la percepción de fluidez y evitando inconsistencias visuales.
+\end{itemize}
+
+\section{Fase de gestión de vídeos}
+
+El módulo de gestión de vídeo constituyó el componente de mayor complejidad técnica, requiriendo orquestar la captura, reproducción y persistencia de archivos pesados bajo restricciones de rendimiento móvil.
+
+\subsection{Motor de Reproducción Nativo y Control de Flujo}
+
+Se desestimó el uso de reproductores externos o vistas web con el fin de optimizar la usabilidad y reducir la carga operativa del paciente. En su lugar, se implementó una solución nativa basada en la biblioteca Media3/ExoPlayer.
+
+Esta decisión permitió obtener un control programático total sobre el ciclo de vida de la reproducción. Mediante la monitorización de eventos de estado, el sistema es capaz de detectar la finalización del vídeo de ejemplo y transicionar automáticamente a la pantalla de grabación, eliminando la necesidad de intervención manual por parte del usuario.
+
+\subsection{Estrategia de Persistencia y Abstracción}
+
+Para el almacenamiento de los vídeos generados, se diseñó una arquitectura preparada para el escalado a la nube, aunque implementada localmente para la fase de prototipo. Se aplicó un patrón de diseño que abstrae la fuente de datos, desacoplando la lógica de la aplicación de la ubicación física de los archivos. Esto permite que la capa de presentación ignore si el recurso es local o remoto, facilitando una futura migración a servicios de almacenamiento en la nube sin requerir la refactorización del código cliente.
+
+\subsection{Tolerancia a Fallos e Integridad de Archivos}
+
+La integración con el hardware de cámara presentó desafíos de estabilidad. Para mitigar el riesgo de corrupción de archivos debido a interrupciones inesperadas del sistema operativo, se desarrolló una capa de programación defensiva.
+
+El sistema incorpora rutinas de verificación post-procesado que analizan la integridad de los archivos de vídeo generados antes de darlos por válidos. Si se detecta un archivo corrupto o vacío, el sistema lo descarta de forma controlada y gestiona el error, impidiendo que se persistan datos inválidos en la base de datos clínica y asegurando la robustez del repositorio multimedia.

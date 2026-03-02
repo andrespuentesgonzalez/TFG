@@ -1,0 +1,47 @@
+\capitulo{4}{Técnicas y Herramientas}
+
+En este capítulo se describen las tecnologías, lenguajes y herramientas seleccionadas para el desarrollo del sistema. La elección de este stack tecnológico responde a criterios de rendimiento, escalabilidad y adecuación a los requisitos de salud móvil y seguridad descritos anteriormente.
+
+\section{Herramientas de programación}
+
+\textbf{Entorno de desarrollo Android Studio.} Es la herramienta oficial proporcionada por Google para el desarrollo de aplicaciones móviles sobre el sistema operativo Android. Basado en el motor IntelliJ IDEA, este entorno unifica en una sola interfaz todas las herramientas necesarias para la construcción del software, incluyendo un editor de código inteligente, herramientas de depuración avanzada, un emulador de dispositivos y el sistema de construcción Gradle. \cite{android_studio_intro}
+
+\textbf{Visual Studio Code.} Es un editor de código fuente ligero y multiplataforma desarrollado por Microsoft. Se ha seleccionado como el entorno de trabajo principal para el desarrollo del \textit{backend} debido a su arquitectura modular basada en extensiones. Su integración nativa con el intérprete de Python, junto con sus capacidades de depuración remota y gestión de terminales integradas, facilita la implementación ágil de la API.
+
+\textbf{Lenguaje de programación Kotlin.} Se trata de un lenguaje de programación de tipado estático que corre sobre la Máquina Virtual de Java (JVM) y que ha sido adoptado como el estándar oficial para el desarrollo en Android. Su elección se justifica por sus características de seguridad de memoria y por su sintaxis concisa, que permite expresar lógicas complejas con un menor volumen de código.  \cite{so_kotlin}
+
+\textbf{Python.} Es un lenguaje de programación interpretado, multiparadigma y de alto nivel. Ha sido la elección tecnológica para la lógica del servidor debido a su legibilidad y a su vasto ecosistema de bibliotecas especializadas. Su uso permite una implementación rápida de la lógica de negocio y prepara el sistema para una integración fluida con futuros módulos de Inteligencia Artificial.  \cite{python_org}
+
+\textbf{\textit{Framework} FastAPI.} Es un marco de trabajo moderno y de alto rendimiento para la construcción de APIs con Python. Constituye el núcleo tecnológico del servidor, encargándose de recibir las peticiones de la aplicación móvil, validar los datos y orquestar la lógica de negocio, destacando por su velocidad de ejecución y su capacidad para generar documentación interactiva automática.
+
+\textbf{Protocolo HTTPS.} Constituye la versión segura del protocolo de comunicación HTTP mediante el uso de TLS. Su implementación garantiza la autenticación del servidor, la confidencialidad de los datos médicos en tránsito mediante cifrado y la integridad de la información durante la transmisión entre el cliente y el servidor.
+
+\section{Bibliotecas}
+
+\textbf{\textit{Toolkit} Jetpack Compose.} Es el conjunto de herramientas moderno recomendado por Google para la construcción de interfaces de usuario nativas. Implementa técnicamente el paradigma de programación declarativa, permitiendo construir la interfaz utilizando exclusivamente código Kotlin, simplificando el desarrollo mediante componentes reutilizables y una gestión reactiva del estado.  \cite{jetpack_compose_ref}
+
+\textbf{Sistema de diseño Material Design 3.} Constituye la última iteración del lenguaje de diseño creado por Google. Proporciona una guía exhaustiva de componentes visuales, tipografías y sistemas de color estandarizados que garantizan la coherencia visual y la accesibilidad, asegurando que los elementos interactivos cumplan con los requisitos ergonómicos necesarios para una aplicación de salud.  \cite{material_design_3}
+
+\textbf{Biblioteca CameraX.} Forma parte de la suite Android Jetpack y es la solución técnica encargada de abstraer la complejidad del hardware de cámara. Su principal valor reside en su capacidad para gestionar el ciclo de vida de la cámara de forma automática, garantizando la estabilidad del sistema y maximizando la compatibilidad con el ecosistema de dispositivos Android. 
+
+\textbf{Reproductor ExoPlayer (Media3).} Es un reproductor multimedia a nivel de aplicación, extensible y de código abierto. Permite un control granular sobre la reproducción de vídeo, soportando protocolos de \textit{streaming} adaptativo y ofreciendo una gestión eficiente del \textit{buffering} y la decodificación, elementos críticos para visualizar las sesiones de rehabilitación.  \cite{exoplayer_ref}
+
+\textbf{Librería Kotlin Coroutines.} Es la herramienta utilizada para implementar el modelo de concurrencia estructurada. Permite transformar operaciones asíncronas complejas en código secuencial y legible. Su uso es vital para mantener la fluidez de la interfaz gráfica, delegando tareas pesadas a hilos de ejecución secundarios de manera eficiente.  \cite{kotlin_coroutines_ref}
+
+\textbf{Cliente HTTP Retrofit.} Es una librería de cliente REST para Android y Java que facilita el consumo de servicios web. Su función es traducir la API HTTP definida en el servidor en interfaces de Kotlin seguras y tipadas, gestionando la serialización y deserialización automática de las respuestas JSON.
+
+\textbf{Librería de validación de datos Pydantic.} Es la herramienta empleada en el entorno de servidor para asegurar la integridad estricta de la información entrante. Actúa como una barrera de control de calidad que verifica que cada petición recibida por la API cumple rigurosamente con el esquema esperado antes de su procesamiento.  \cite{pydantic_ref}
+
+\textbf{Librería de \textit{hashing} Bcrypt.} Es una función de derivación de claves criptográficas diseñada para el almacenamiento seguro de contraseñas. Incorpora un coste computacional configurable que hace que el proceso de verificación sea intencionadamente lento para una máquina, protegiendo las credenciales frente a ataques de fuerza bruta.  \cite{bcrypt_tool}
+
+\section{Gestión de datos}
+
+\textbf{PostgreSQL.} Es un sistema de gestión de bases de datos relacional de código abierto. Actúa como la capa de persistencia definitiva del sistema, garantizando la integridad referencial de los datos y cumpliendo con las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad), requisitos indispensables para el almacenamiento seguro de historiales clínicos y registros de usuarios.  \cite{postgresql_ref}
+
+\textbf{Draw.io.} Es una aplicación de diagramación técnica multiplataforma y de código abierto. Permite la creación y edición de gráficos vectoriales y modelos visuales estandarizados, como diagramas UML, flujos de procesos y esquemas de red, proporcionando una interfaz web para el modelado de arquitecturas de software.  \cite{draw_io_ref}
+
+\section{Gestión de proyecto}
+
+\textbf{Sistema de control de versiones Git y GitHub.} Git es la herramienta utilizada para registrar los cambios en el código fuente y gestionar ramas de trabajo paralelas. GitHub actúa como la plataforma de alojamiento en la nube, facilitando la copia de seguridad distribuida y la trazabilidad de la evolución del proyecto.  \cite{git_ref}
+
+\textbf{Plataforma de gestión Jira.} Es una herramienta de software diseñada para la administración de proyectos y el seguimiento de incidencias. Su arquitectura soporta la implementación de metodologías ágiles, permitiendo la organización de equipos, la asignación de tareas y la monitorización de flujos de trabajo mediante tableros interactivos y reportes de progreso.

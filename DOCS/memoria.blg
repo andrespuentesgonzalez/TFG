@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: memoria.aux
+Reallocating 'name_of_file' (item size: 1) to 6 items.
+The style file: plain.bst
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+Database file #1: bibliografia_memoria.bib
+You've used 18 entries,
+            2118 wiz_defined-function locations,
+            585 strings with 7020 characters,
+and the built_in function-call counts, 3928 in all, are:
+= -- 396
+> -- 126
+< -- 0
++ -- 54
+- -- 36
+* -- 110
+:= -- 677
+add.period$ -- 72
+call.type$ -- 18
+change.case$ -- 72
+chr.to.int$ -- 0
+cite$ -- 18
+duplicate$ -- 126
+empty$ -- 397
+format.name$ -- 36
+if$ -- 865
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 0
+newline$ -- 111
+num.names$ -- 36
+pop$ -- 144
+preamble$ -- 1
+purify$ -- 54
+quote$ -- 0
+skip$ -- 107
+stack$ -- 0
+substring$ -- 90
+swap$ -- 18
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 72
+warning$ -- 0
+while$ -- 36
+width$ -- 20
+write$ -- 218
